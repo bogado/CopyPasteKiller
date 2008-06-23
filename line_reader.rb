@@ -72,8 +72,16 @@ class Line
 		return "#{file}:#{num}"
 	end
 
+	def ==(line)
+		return line.key == @key
+	end
+
 	def next
-		return @file[num + 1]
+		return @file[@num + 1]
+	end
+
+	def +(num)
+		return @file[@num + num]
 	end
 
 	def Line.[](key)
@@ -82,6 +90,37 @@ class Line
 		end
 
 		return @@allLines[key]
+	end
+end
+
+class Chunk 
+	include StrS
+	attr :line
+	attr :size
+
+	def to_s
+		return line + "-" + (line.num + (size-1))
+	end
+
+	def initialize(line, size)
+		@line = line
+		@size = size
+	end
+
+	def ==(chunk)
+		if (size != chunk.size)
+			return false
+		end
+
+		size.times do |i|
+			if (line + i) != (chunk.line + i)
+				return false
+			end
+		end
+	end
+
+	def has?(line)
+
 	end
 end
 
@@ -98,10 +137,10 @@ class LineIndexer
 			key = line.key
 
 			if (@lines[key] == nil) then 
-				@lines[key] = {} 
+				@lines[key] = [] 
 			end
 
-			@lines[key][line.file] = line
+			@lines[key].push(line)
 		end
 	end
 
@@ -110,9 +149,34 @@ class LineIndexer
 			addSource(filename)
 		end
 
+		result = []
+		check = []
 		@files[filename].each do |line|
+			check.map! do |chunk|
+				if @lines[chunk.line + chunk.size] == line
+					chunk.grow
+				else
+					if (chunk.size > 1)
+						result.push(chunk)
+					end
+					nil
+				end
+			end
 
+			check.compact
+
+			@lines[line.key].each do |line2|
+				if (line != line2)
+					check.each do |chunk| 
+						if (chunk.has?(line)) then
+							check.push(Chunk.new(line,1))
+						end
+					end
+				end
+			end
 		end
+
+		return result
 	end
 end
 

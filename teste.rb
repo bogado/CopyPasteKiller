@@ -1,5 +1,8 @@
 require "line_reader"
 
 a = LineIndexer.new
-a.addSource("line_reader.rb")
-a.check("line_reader.rb")
+a.addSource("teste1")
+result = a.check("teste2")
+
+print result.join("\n")
+
