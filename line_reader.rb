@@ -1,6 +1,14 @@
 require 'digest/md5'
 
+module StrS
+	def to_str
+		return to_s()
+	end
+end
+
 class SourceFile
+	include StrS
+
 	attr_reader :filename
 
 	def initialize(file)
@@ -15,7 +23,7 @@ class SourceFile
 		@lines = Array.new
 		file.each do |content|
 			num += 1
-			line = Line.new(filename, num, content)
+			line = Line.new(self, num, content)
 			@lines.push(line)
 
 			if block_given? then 
@@ -35,9 +43,14 @@ class SourceFile
 	def [](num)
 		return Line[@lines[num]]
 	end
+
+	def to_s
+		return @filename
+	end
 end
 
 class Line
+	include StrS
 	@@allLines = Hash.new
 
 	attr_accessor :file
@@ -57,6 +70,10 @@ class Line
 
 	def to_s
 		return "#{file}:#{num}"
+	end
+
+	def next
+		return @file[num + 1]
 	end
 
 	def Line.[](key)
@@ -81,10 +98,10 @@ class LineIndexer
 			key = line.key
 
 			if (@lines[key] == nil) then 
-				@lines[key] = []
+				@lines[key] = {} 
 			end
 
-			@lines[key].push(line)
+			@lines[key][line.file] = line
 		end
 	end
 
@@ -94,13 +111,8 @@ class LineIndexer
 		end
 
 		@files[filename].each do |line|
-			if (@lines[line.key].size > 1)
-				print "Repeated line : " + @lines[line.key].join(", ") + "\n"
-			end
+
 		end
 	end
 end
 
-a = LineIndexer.new
-a.addSource("line_reader.rb")
-a.check("line_reader.rb")
