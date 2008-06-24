@@ -70,6 +70,9 @@ class Line
 	end
 	
 	def hash(line)
+		line.gsub!(/\s+/, " ")
+		line.gsub!(/([^a-zA-Z0-9._]) ([^a-zA-Z0-9._])/, "\1\2")
+
 		return Digest::MD5.hexdigest(line)
 	end
 
