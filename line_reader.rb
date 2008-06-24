@@ -238,7 +238,7 @@ class LineIndexer
 
 			next if lines.size == 1
 
-			next if cache.has?(lines)
+			next if cache.has?(l)
 
 			matches = lines.map { |line| Chunk.new(line, 1) }
 
