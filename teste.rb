@@ -11,6 +11,8 @@ result = a.check(5) do |n, tot, l|
 	$stdout.flush
 end
 
+result.sort! { |a,b| a[0].size <=> b[0].size }
+
 result.each do |ar|
-	print "#{ar.join(", ")}\n"
+	print "#{ar.join(", ")}\n\n"
 end
