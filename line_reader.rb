@@ -242,12 +242,13 @@ class LineIndexer
 
 			matches = lines.map { |line| Chunk.new(line, 1) }
 
+			mychunk = Chunk.new(l, 1)
 			while matches.size > 1
-				largerchunk = matches[0].grow
+				mychunk = mychunk.grow
 
 				newmatches = matches.map do |chunk|
 					newchunk = chunk.grow
-					if newchunk == largerchunk
+					if newchunk == mychunk
 						newchunk
 					else
 						nil
