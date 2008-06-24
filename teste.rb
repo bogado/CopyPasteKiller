@@ -6,7 +6,7 @@ ARGV.each do |file|
 	print "added #{file}\n";
 end
 
-result = a.check(5) do |n, tot, l|
+result = a.check(3) do |n, tot, l|
 	print "#{100*n/tot}%  #{l}     \r"
 	$stdout.flush
 end
