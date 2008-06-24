@@ -114,6 +114,9 @@ class Line
 	end
 end
 
+class InvalidChunk < RuntimeError
+end
+
 class Chunk 
 	include StrS
 	attr :line
@@ -124,11 +127,16 @@ class Chunk
 	end
 
 	def initialize(line, size)
+		if (line + (size - 1) == nil)
+			raise InvalidChunk.new("chunk invalido")
+		end
+
 		@line = line
 		@size = size
 	end
 
 	def ==(chunk)
+		return false unless (chunk.instance_of?(Chunk))
 		if (size != chunk.size)
 			return false
 		end
@@ -155,7 +163,11 @@ class Chunk
 	end
 
 	def grow
-		Chunk.new(@line, @size + 1)
+		if ((@line + @size) != nil)
+			Chunk.new(@line, @size + 1)
+		else
+			nil
+		end
 	end
 end
 
