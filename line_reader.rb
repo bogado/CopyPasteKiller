@@ -52,6 +52,10 @@ class SourceFile
 	def to_s
 		return @filename
 	end
+
+	def size
+		return @lines.size
+	end
 end
 
 class Line
