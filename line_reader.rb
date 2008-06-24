@@ -253,7 +253,7 @@ class LineIndexer
 
 				newmatches.compact!
 
-				if (newmatches.size < matches.size)
+				if (newmatches.size < 2)
 					matches.each { |c| cache.add(c) }
 					result.push(matches) unless matches[0].size < min
 				end
