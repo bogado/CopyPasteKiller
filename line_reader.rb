@@ -229,6 +229,10 @@ class LineIndexer
 		n = 0
 		@alllines.each do |l|
 			lines = @lines[l.key]
+
+			yield(n, @alllines.size, l) if block_given?
+			n += 1;
+
 			next if lines.size == 1
 
 			next if cache.has?(lines)
