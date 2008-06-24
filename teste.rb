@@ -1,8 +1,12 @@
 require "line_reader"
 
 a = LineIndexer.new
-a.addSource("teste1")
-result = a.check("teste2")
+ARGV.each do |file|
+	a.add(file)
+end
 
-print result.join("\n")
+result = a.check(5)
 
+result.each do |ar|
+	print "#{ar.join(", ")}\n"
+end
