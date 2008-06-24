@@ -41,7 +41,12 @@ class SourceFile
 	end
 
 	def [](num)
-		return Line[@lines[num]]
+		return @lines[num - 1]
+	end
+
+	def ==(file)
+		return false unless file.respond_to?(:filename)
+		return @filename == file.filename
 	end
 
 	def to_s
@@ -73,7 +78,12 @@ class Line
 	end
 
 	def ==(line)
+		return false unless line.respond_to?(:key)
 		return line.key == @key
+	end
+
+	def ===(line)
+		return line.num == @num && line.file == @file
 	end
 
 	def next
@@ -82,6 +92,10 @@ class Line
 
 	def +(num)
 		return @file[@num + num]
+	end
+
+	def -(num)
+		return @file[@num - num]
 	end
 
 	def Line.[](key)
@@ -99,7 +113,7 @@ class Chunk
 	attr :size
 
 	def to_s
-		return line + "-" + (line.num + (size-1))
+		return "#{line}(#{@size})"
 	end
 
 	def initialize(line, size)
@@ -120,17 +134,79 @@ class Chunk
 	end
 
 	def has?(line)
+		if (line.instance_of?(Array))
+			line.each do |l|
+				if has?(l)
+					return true
+				end
+			end
+			return false
+		end
 
+		line.file == @line.file && 
+			line.num >= @line.num && line.num < (@line.num + @size)
+	end
+
+	def grow
+		Chunk.new(@line, @size + 1)
+	end
+end
+
+class LineCache 
+	def initialize
+		@lines = {}
+	end
+
+	def has?(thing)
+		case thing
+		when Array
+			hasLines?(thing)
+		when Line
+			hasLine?(thing)
+		else
+			raise
+		end
+	end
+
+	def hasLines?(lines)
+		lines.each { |l| return true if hasLine?(l) }
+		return false
+	end
+
+	def hasLine?(line)
+		return @lines[line.to_s] == 1
+	end
+
+	def add(thing)
+		case thing 
+		when Chunk 
+			addChunk(thing)
+		when Line
+			addLine(thing)
+		else 
+			raise 
+		end
+	end
+
+	def addChunk(chunk)
+		chunk.size.times do |n| 
+			addLine(chunk.line + n)
+		end
+	end
+
+	def addLine(line)
+		@lines[line.to_s] = 1
 	end
 end
 
 class LineIndexer
 	def initialize
 		@lines = {}
+		@alllines = []
 		@files = {}
 	end
 
-	def addSource(filename)
+	def add(filename)
 		@files[filename] = 
 			SourceFile.new(filename) do |line|
 
@@ -140,39 +216,45 @@ class LineIndexer
 				@lines[key] = [] 
 			end
 
+			@alllines.push(line)
 			@lines[key].push(line)
 		end
 	end
 
-	def check(filename)
-		if (@files[filename] == nil)
-			addSource(filename)
-		end
-
+	def check(min = 2)
 		result = []
-		check = []
-		@files[filename].each do |line|
-			check.map! do |chunk|
-				if @lines[chunk.line + chunk.size] == line
-					chunk.grow
-				else
-					if (chunk.size > 1)
-						result.push(chunk)
-					end
-					nil
-				end
-			end
 
-			check.compact
+		cache = LineCache.new
 
-			@lines[line.key].each do |line2|
-				if (line != line2)
-					check.each do |chunk| 
-						if (chunk.has?(line)) then
-							check.push(Chunk.new(line,1))
-						end
+		n = 0
+		@alllines.each do |l|
+			lines = @lines[l.key]
+			next if lines.size == 1
+
+			next if cache.has?(lines)
+
+			matches = lines.map { |line| Chunk.new(line, 1) }
+
+			while matches.size > 1
+				largerchunk = matches[0].grow
+
+				newmatches = matches.map do |chunk|
+					newchunk = chunk.grow
+					if newchunk == largerchunk
+						newchunk
+					else
+						nil
 					end
 				end
+
+				newmatches.compact!
+
+				if (newmatches.size < matches.size)
+					matches.each { |c| cache.add(c) }
+					result.push(matches) unless matches[0].size < min
+				end
+
+				matches = newmatches
 			end
 		end
 
