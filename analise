@@ -1,0 +1,76 @@
+#!/bin/env ruby
+
+require "src/lineindexer"
+require "optparse"
+
+min = 5
+verbose = false
+silence = false
+sort = :line
+
+parser = OptionParser.new do |opts|
+	opts.banner = "Usage: analise [options] files..."
+
+	opts.on("-m", "--min size", "minimum size for matches, default 5") do |m|
+		min = m
+	end
+
+	opts.on("-S", "--silent", "be silent") do 
+		silence = true
+		verbose = false
+	end
+
+	opts.on("-v", "--verbose", "be verbose") do 
+		verbose = true
+	end
+
+	opts.on("-s", "--sort-size", "Sort results by match size") do
+		sort = :size
+	end
+
+	opts.on("-l", "--sort-line", "Sort results by line (default)") do
+		sort = :line
+	end
+
+	opts.on("-b", "--ignore-blank", "Ignore blank characters (spaces/tabs) while comparing") do
+		Line::hasher = FilterHash.new(Line::hasher, /\s+/)
+	end
+
+	opts.on("-c", "--colapse", "Colapse non new word spaces") do
+		Line::hasher = FilterHash.new(Line::hasher, /(\w)\s+(\w)/,"\1\2")
+	end
+
+	opts.on_tail("-h", "--help", "show this message") do 
+		puts opts
+		exit
+	end
+end
+
+indexer = LineIndexer.new
+
+parser.parse!.each do |file|
+	indexer.add(file)
+	print "added #{file}\n" if verbose
+end
+
+result = indexer.check(min) do |n, tot, l|
+	print "\e[K\r#{100*n/tot}%" unless silence
+	print " #{l}" if verbose
+	$stdout.flush unless silence
+end
+print "\r\e[K" unless silence
+
+case sort
+when :line
+	result.sort! { |a,b| a[0].line.num <=> b[0].line.num }
+when :size
+	result.sort! { |a,b| a[0].size <=> b[0].size }
+end
+
+wasted = 0
+result.each do |match|
+	print "#{match.join(", ")}\n\n"
+	wasted += (match.size - 1) * match[0].size
+end
+
+print "Found #{result.size} matching blocks. approxamately #{100*wasted/indexer.num_lines}% of lines are wasted.\n"

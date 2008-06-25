@@ -4,6 +4,7 @@ require "src/all"
 class Line
 	include StrS
 	@@allLines = Hash.new
+	@@hasher = Hasher.new
 
 	attr_accessor :file
 	attr_accessor :num
@@ -12,15 +13,16 @@ class Line
 	def initialize(file, num, content)
 		@file = file
 		@num = num
-		@key = hash(content)
+		@key = @@hasher.hash(content)
 		@@allLines[@key] = content
 	end
-	
-	def hash(line)
-		line.gsub!(/\s+/, " ")
-		line.gsub!(/([^a-zA-Z0-9._]) ([^a-zA-Z0-9._])/, "\1\2")
 
-		return Digest::MD5.hexdigest(line)
+	def Line.hasher=(hasher)
+		@@hasher = hasher
+	end
+
+	def Line.hasher
+		return @@hasher
 	end
 
 	def to_s

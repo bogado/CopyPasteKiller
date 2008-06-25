@@ -113,5 +113,9 @@ class LineIndexer
 
 		return result
 	end
+
+	def num_lines
+		@alllines.size
+	end
 end
 
