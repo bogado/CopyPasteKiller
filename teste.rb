@@ -1,4 +1,4 @@
-require "line_reader"
+require "src/lineindexer"
 
 a = LineIndexer.new
 ARGV.each do |file|
