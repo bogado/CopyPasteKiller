@@ -50,7 +50,7 @@ indexer = LineIndexer.new
 
 parser.parse!.each do |file|
 	indexer.add(file)
-	print "added #{file}\n" if verbose
+	print "\e[K\radded #{file}" if verbose
 end
 
 result = indexer.check(min) do |n, tot, l|
