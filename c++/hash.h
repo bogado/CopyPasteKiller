@@ -73,22 +73,27 @@ class Hash
 public:
 	static std::string hash(std::string str)
 	{
-		return instance().hash(str);
+		return instance().calc(str);
 	}
 
 	static void set(Hasher *h)
 	{
-		delete hasher_;
+		delete instance().hasher_;
 		instance().hasher_ = h;
 	}
 
+	std::string calc(std::string str)
+	{
+		return hasher_->hash(str);
+	}
+
 private:
-	Hash() : hash_(new MD5Hasher()) 
+	Hash() : hasher_(new MD5Hasher()) 
 	{}
 
 	~Hash()
 	{
-		delete hash_;
+		delete hasher_;
 	}
 
 	static Hash &instance()
