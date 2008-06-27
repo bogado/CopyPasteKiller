@@ -12,7 +12,7 @@ parser = OptionParser.new do |opts|
 	opts.banner = "Usage: analise [options] files..."
 
 	opts.on("-m", "--min size", "minimum size for matches, default 5") do |m|
-		min = m
+		min = m.to_i
 	end
 
 	opts.on("-S", "--silent", "be silent") do 
