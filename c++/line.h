@@ -12,10 +12,7 @@ namespace analisys {
 	class Line
 	{
 	public:
-		Line(const File *file, unsigned int num, std::string content) : file_(file), num_(num), content_(content)
-		{
-			key_ = Hash::hash(content_);
-		}
+
 
 		std::string key() const
 		{
@@ -38,6 +35,12 @@ namespace analisys {
 		}
 
 	private:
+		friend class File;
+		Line(const File *file, unsigned int num, std::string content) : file_(file), num_(num), content_(content)
+		{
+			key_ = Hash::hash(content_);
+		}
+
 		const File* file_;
 		unsigned int num_;
 		std::string content_;
