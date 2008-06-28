@@ -15,12 +15,12 @@ namespace analisys {
 	public:
 		File(std::string filename);
 
-		unsigned int size();
+		unsigned int size() const;
 
 		const Line &operator [](int n) const;
 		Line &operator [](int n);
 
-		bool operator ==(const File &b);
+		bool operator ==(const File &b) const;
 
 		friend std::ostream &operator << (std::ostream& out, const File &me)
 		{
@@ -48,7 +48,7 @@ namespace analisys {
 		file.close();
 	}
 
-	inline unsigned int File::size()
+	inline unsigned int File::size() const
 	{
 		return lines_.size();
 	}
@@ -63,7 +63,7 @@ namespace analisys {
 		return lines_[n];
 	}
 
-	inline bool File::operator ==(const File &b)
+	inline bool File::operator ==(const File &b) const
 	{
 		return filename_ == b.filename_;
 	}
