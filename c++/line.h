@@ -13,7 +13,6 @@ namespace analisys {
 	{
 	public:
 
-
 		std::string key() const
 		{
 			return key_;
@@ -36,9 +35,15 @@ namespace analisys {
 
 	private:
 		friend class File;
+
 		Line(const File *file, unsigned int num, std::string content) : file_(file), num_(num), content_(content)
 		{
 			key_ = Hash::hash(content_);
+		}
+
+		void setFile(File *file)
+		{
+			file_ = file;
 		}
 
 		const File* file_;

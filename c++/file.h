@@ -15,6 +15,18 @@ namespace analisys {
 	public:
 		File(std::string filename);
 
+		File(const File &file) : filename_(file.filename()), lines_(file.lines_)
+		{
+			fixLines_();
+		}
+
+		File &operator =(File &file)
+		{
+			lines_ = file.lines_;
+			filename_ = file.filename();
+			fixLines_();
+		}
+
 		unsigned int size() const;
 
 		const Line &operator [](int n) const;
@@ -22,12 +34,24 @@ namespace analisys {
 
 		bool operator ==(const File &b) const;
 
+		std::string filename() const
+		{
+			return filename_;
+		}
+
 		friend std::ostream &operator << (std::ostream& out, const File &me)
 		{
 			return out << me.filename_;
 		}
 
 	private:
+
+		void fixLines_()
+		{
+			for(std::vector<Line>::iterator i = lines_.begin(); i != lines_.end(); ++i)
+				i->setFile(this);
+		}
+
 		std::string filename_;
 		std::vector<Line> lines_;
 	};
