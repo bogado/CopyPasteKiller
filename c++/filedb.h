@@ -2,6 +2,7 @@
 #define FILEDB_H_INCLUDED_
 
 #include "file.h"
+#include "chunk.h"
 
 #include <vector>
 #include <tr1/unordered_map>
@@ -19,7 +20,6 @@ namespace analisys {
 			for(int i = 0; i < file.size(); i++)
 				lines_.insert(make_pair(file[i].key(), &file[i]));
 		}
-		
 
 		const File &operator[] (unsigned int i) const
 		{
@@ -30,6 +30,7 @@ namespace analisys {
 		{
 			return files_.size();
 		}
+
 	private:
 		std::vector<File> files_;
 		std::tr1::unordered_multimap<std::string, Line*> lines_;
