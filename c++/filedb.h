@@ -3,6 +3,7 @@
 
 #include "file.h"
 #include "chunk.h"
+#include "result.h"
 
 #include <vector>
 #include <tr1/unordered_map>
@@ -74,7 +75,7 @@ namespace analisys {
 			}
 		private:
 			const Line &line_;
-		}
+		};
 	};
 }
 

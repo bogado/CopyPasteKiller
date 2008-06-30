@@ -8,6 +8,7 @@
 namespace analisys {
 
 	class File;
+	bool operator==(const File &a, const File &b);
 
 	class Line
 	{
@@ -32,9 +33,14 @@ namespace analisys {
 			return content_;
 		}
 
-		Line operator +(int n);
+		Line operator +(int n) const;
 
-		bool valid(int n = 0);
+		bool valid(int n = 0) const;
+
+		bool operator== (const Line &l) const
+		{
+			return l.file() == file() && num_ == l.num();
+		}
 
 	private:
 		friend class File;
