@@ -12,7 +12,6 @@ namespace analisys {
 	class Line
 	{
 	public:
-
 		std::string key() const
 		{
 			return key_;

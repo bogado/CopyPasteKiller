@@ -5,10 +5,19 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 #include "line.h"
 
 namespace analisys {
+
+	class NoSuchLine : public std::runtime_error
+	{
+	public:
+		NoSuchLine(std::string filename) :
+			std::runtime_error(std::string("No such line on file") + filename)
+		{}
+	};
 
 	class File 
 	{
@@ -84,6 +93,9 @@ namespace analisys {
 
 	inline Line &File::operator [](int n)
 	{
+		if (n >= lines_.size() && n < 0)
+			throw(NoSuchLine(filename_));
+
 		return lines_[n];
 	}
 
