@@ -10,6 +10,11 @@ namespace analisys {
 	class Result
 	{
 	public:
+		void add(const Line &l)
+		{
+			lines_.push_back(l);
+		}
+
 		template <class FUNCTOR>
 		void grow(int n, FUNCTOR f)
 		{
@@ -17,6 +22,12 @@ namespace analisys {
 			lines_.remove_if(c);
 		}
 
+		template <class FUNCTOR>
+		bool check(int n, FUNCTOR f) const
+		{
+			Check<FUNCTOR> c(n, f);
+			return std::find_if(lines_.begin(), lines_.end(), c) != lines_.end();
+		}
 	private:
 		std::list<Line> lines_;
 		unsigned int size_;
