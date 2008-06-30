@@ -32,6 +32,10 @@ namespace analisys {
 			return content_;
 		}
 
+		Line operator +(int n);
+
+		bool valid(int n = 0);
+
 	private:
 		friend class File;
 
