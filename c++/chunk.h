@@ -43,8 +43,8 @@ namespace analisys {
 				return false;
 
 			int start = c.start().num();
-			int end = c.num() + c.size();
-			if (start < num_ || end > num_ + size)
+			int end = c.start().num() + c.size();
+			if (start < start_.num() || end > start_.num() + size_)
 				return false;
 
 			return true;
