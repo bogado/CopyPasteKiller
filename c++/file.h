@@ -42,6 +42,7 @@ namespace analisys {
 		Line &operator [](int n);
 
 		bool operator ==(const File &b) const;
+		bool operator !=(const File &b) const;
 
 		std::string filename() const
 		{
@@ -102,6 +103,11 @@ namespace analisys {
 	inline bool File::operator ==(const File &b) const
 	{
 		return filename_ == b.filename_;
+	}
+
+	inline bool File::operator !=(const File &b) const
+	{
+		return filename_ != b.filename_;
 	}
 }
 
