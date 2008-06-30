@@ -39,16 +39,16 @@ namespace analisys {
 			for(std::vector<File>::iterator f = files_.begin(); f != files_.end(); ++f)
 				for(int l = 0; l < f->size(); l++)
 				{
-					if (lines_.count(f[l].key()))
+					if (lines_.count((*f)[l].key()))
 						continue;
 
 					std::pair<LinesMultimap::iterator, LinesMultimap::iterator> range;
-					range = lines_.equal_range(f[l].key());
+					range = lines_.equal_range((*f)[l].key());
 					Result res;
 					for (LinesMultimap::iterator i = range.first; i != range.second; ++i)
-						res.add(*i);
+						res.add(i->second);
 
-					Comparator comp(l);
+					Comparator comp((*f)[l]);
 					while (res.check(1, comp))
 					{
 						res.grow(1, comp);
@@ -66,7 +66,7 @@ namespace analisys {
 		class Comparator 
 		{
 		public:
-			Comparator(const Line &l) line_(l)
+			Comparator(const Line &l) : line_(l)
 			{}
 
 			bool operator()(const Line &l)
