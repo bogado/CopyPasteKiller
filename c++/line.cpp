@@ -20,4 +20,3 @@ bool analisys::Line::valid(int n)
 
 	return false;
 }
-

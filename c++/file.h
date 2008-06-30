@@ -19,7 +19,7 @@ namespace analisys {
 		{}
 	};
 
-	class File 
+	class File
 	{
 	public:
 		File(std::string filename);
