@@ -10,6 +10,8 @@ namespace analisys {
 	class Result
 	{
 	public:
+		typedef std::list<Line> LineList;
+
 		Result(int len) : len_(len)
 		{}
 
@@ -42,11 +44,11 @@ namespace analisys {
 		}
 
 	private:
-		std::list<Line> lines_;
+		LineList lines_;
 		unsigned int len_;
 
 		/// Check if this line belongs to this result.
-		virtual bool check_(const Line &l) const = 0
+		virtual bool check_(const Line &l) const = 0;
 	};
 }
 
