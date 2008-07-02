@@ -29,6 +29,24 @@ namespace analisys {
 		 */
 		bool grow(Result &res)
 		{
+			int n = 0;
+			std::vector<bool> keep(lines_.size());
+			len_++;
+			for (LineList::iterator i = lines_.begin(); i != lines_.end(); ++i)
+			{
+				if (check_(*i))
+				{
+					n++;
+					keep.push_back(true);
+				} else
+					keep.push_back(false);
+			}
+
+			// trivial result.
+			if (n <= 2)
+				return false;
+
+			lines_.remove_if(lines_.begin(), lines_.end(), /* keep */);
 		}
 
 		/// Length of matching blocks
