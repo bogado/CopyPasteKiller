@@ -2,8 +2,8 @@
 #define FILEDB_H_INCLUDED_
 
 #include "file.h"
-#include "chunk.h"
 #include "result.h"
+#include "resultSet.h"
 
 #include <vector>
 #include <tr1/unordered_map>
@@ -34,8 +34,9 @@ namespace analisys {
 			return files_.size();
 		}
 
-		void check()
+		ResultSet check()
 		{
+			ResultSet ret;
 			for(std::vector<File>::iterator f = files_.begin(); f != files_.end(); ++f)
 				for(int l = 0; l < f->size(); l++)
 				{
@@ -44,7 +45,7 @@ namespace analisys {
 
 					std::pair<LinesMultimap::iterator, LinesMultimap::iterator> range;
 					range = lines_.equal_range((*f)[l].key());
-					Result res;
+					Result &res = ret.newResult();
 					for (LinesMultimap::iterator i = range.first; i != range.second; ++i)
 						res.add(i->second);
 
@@ -55,6 +56,7 @@ namespace analisys {
 						++l;
 					}
 				}
+			return ret;
 		}
 
 	private:

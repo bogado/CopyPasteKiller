@@ -3,8 +3,9 @@
 
 #include <list>
 #include <algorithm>
+#include <iostream>
 
-#include "chunk.h"
+#include "line.h"
 
 namespace analisys {
 

@@ -11,6 +11,5 @@ int main()
 	fdb.addFile("line.cpp");
 	fdb.addFile("line.h");
 
-	std::cout << "aqui\n";
-	fdb.check();
+	std::cout << fdb.check() << "\n";
 }
