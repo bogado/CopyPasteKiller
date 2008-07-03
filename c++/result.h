@@ -84,6 +84,19 @@ namespace analisys {
 
 			return find_if(lines_.begin(), lines_.end(), checker) == lines_.end();
 		}
+
+		friend std::ostream &operator <<(std::ostream &out, const Result &me)
+		{
+			out << me.length() << " (";
+			LineList::const_iterator begin = me.lines_.begin();
+			for (LineList::const_iterator i = begin; i != me.lines_.end(); ++i)
+			{
+				if (i != begin)
+					out << ", ";
+				out << (*i);
+			}
+		}
+
 	private:
 		class CheckLine
 		{

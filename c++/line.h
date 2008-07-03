@@ -61,8 +61,8 @@ namespace analisys {
 		std::string key_;
 	};
 
+	std::ostream &operator <<(std::ostream &out, const Line &me);
 }
 
-std::ostream &operator <<(std::ostream &out, const analisys::Line &me);
 
 #endif
