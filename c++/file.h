@@ -26,13 +26,7 @@ namespace analisys {
 
 		File(const File &file) : filename_(file.filename()), lines_(file.lines_)
 		{
-			std::cout << this << ":f CC\n";
 			fixLines_();
-		}
-
-		~File()
-		{
-			std::cout << this << ":f D\n";
 		}
 
 		File &operator =(File &file)
@@ -74,7 +68,6 @@ namespace analisys {
 
 	inline File::File(std::string filename) : filename_(filename)
 	{
-		std::cout << this << ":f C\n";
 		std::fstream file(filename.c_str(), std::fstream::in);
 
 		unsigned int n = 0;

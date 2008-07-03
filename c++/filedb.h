@@ -13,12 +13,6 @@ namespace analisys {
 	class FileDB
 	{
 	public:
-		FileDB()
-		{ std::cout << this << ":fdb C\n"; }
-
-		~FileDB()
-		{ std::cout << this << ":fdb D\n"; }
-
 		typedef std::tr1::unordered_multimap<std::string, Line> LinesMultimap;
 
 		void addFile(std::string filename)
