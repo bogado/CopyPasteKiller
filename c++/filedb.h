@@ -40,7 +40,7 @@ namespace analisys {
 			return files_.size();
 		}
 
-		Result check()
+		void check()
 		{
 			for(std::vector<File>::iterator f = files_.begin(); f != files_.end(); ++f)
 				for(int l = 0; l < f->size(); l++)
