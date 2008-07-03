@@ -67,7 +67,7 @@ namespace analisys {
 		std::vector<File> files_;
 		LinesMultimap lines_;
 
-		class Comparator 
+		class Comparator
 		{
 		public:
 			Comparator(const Line &l) : line_(l)

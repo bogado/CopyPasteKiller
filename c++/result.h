@@ -47,8 +47,7 @@ namespace analisys {
 
 		void add(const Line &l)
 		{
-			if (check_(l))
-				lines_.push_back(l);
+			lines_.push_back(l);
 		}
 
 		/** grow this result, if possible

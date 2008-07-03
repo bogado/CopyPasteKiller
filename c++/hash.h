@@ -96,6 +96,12 @@ private:
 		delete hasher_;
 	}
 
+	Hash operator =(const Hash &hash)
+	{}
+
+	Hash(const Hash &hash) : hasher_(new MD5Hasher())
+	{}
+
 	static Hash &instance()
 	{
 		static Hash singleton;
