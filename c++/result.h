@@ -33,8 +33,17 @@ namespace analisys {
 	public:
 		typedef std::list<Line> LineList;
 
+		Result(const Result &r) : lines_(r.lines_), len_(r.len_)
+		{ std::cout << this << ":r CC\n"; }
+
+		Result() : len_(1)
+		{ std::cout << this << ":r DC\n"; }
+
 		Result(int len) : len_(len)
-		{}
+		{ std::cout << this << ":r C\n"; }
+
+		~Result()
+		{ std::cout << this << ":r D\n"; }
 
 		void add(const Line &l)
 		{
