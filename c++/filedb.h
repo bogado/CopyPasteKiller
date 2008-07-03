@@ -48,13 +48,11 @@ namespace analisys {
 					for (LinesMultimap::iterator i = range.first; i != range.second; ++i)
 						res.add(i->second);
 
-					Comparator comp((*f)[l]);
-					while (res.check(1, comp))
+					KeyChecker resultChecker((*f)[l]);
+
+					while (res.grow(resultChecker))
 					{
-						res.grow(1, comp);
 						++l;
-						if (l == f->size())
-							break;
 					}
 				}
 		}

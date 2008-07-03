@@ -2,10 +2,31 @@
 #define RESULT_H_INCLUDED
 
 #include <list>
+#include <algorithm>
 
 #include "chunk.h"
 
 namespace analisys {
+
+	class KeyChecker
+	{
+	public:
+		KeyChecker(const Line& l) : line_(l), size_(1)
+		{}
+
+		void setSize(unsigned int sz)
+		{
+			size_ = sz;
+		}
+
+		bool operator()(const Line &l)
+		{
+			return (l + size_) == line_;
+		}
+	private:
+		Line line_;
+		unsigned int size_;
+	};
 
 	class Result
 	{
@@ -27,26 +48,21 @@ namespace analisys {
 		 *
 		 * @returns true if it was possible to grow.
 		 */
-		bool grow(Result &res)
+		template <class ResultChecker>
+		bool grow(ResultChecker &checker)
 		{
-			int n = 0;
-			std::vector<bool> keep(lines_.size());
-			len_++;
-			for (LineList::iterator i = lines_.begin(); i != lines_.end(); ++i)
-			{
-				if (check_(*i))
-				{
-					n++;
-					keep.push_back(true);
-				} else
-					keep.push_back(false);
-			}
+			checker.setSize(len_ + 1);
+			// Puts all the lines that pass the check on front.
+			LineList::iterator newEnd = partition(lines_.begin(), lines_.end(),
+					checker);
 
-			// trivial result.
-			if (n <= 2)
+			// is this a trivial result?
+			if (newEnd == lines_.begin() || newEnd == lines_.begin()++)
 				return false;
 
-			lines_.remove_if(lines_.begin(), lines_.end(), /* keep */);
+			len_++;
+			lines_.erase(newEnd, lines_.end());
+			return true;
 		}
 
 		/// Length of matching blocks
@@ -61,12 +77,38 @@ namespace analisys {
 			return lines_.size();
 		}
 
+		/// Does the line l belongs to this result?
+		bool belongs(const Line &l) const
+		{
+			CheckLine checker(l, len_);
+
+			return find_if(lines_.begin(), lines_.end(), checker) == lines_.end();
+		}
 	private:
+		class CheckLine
+		{
+		public:
+			CheckLine(const Line& l, unsigned int size) : line_(l), size_(size)
+			{}
+
+			bool operator() (const Line &l)
+			{
+				if (l.file() != line_.file())
+					return false;
+
+				if (l.num() >= line_.num() && l.num() < line_.num() + size_)
+					return true;
+
+				return false;
+			}
+
+		private:
+			const Line &line_;
+			unsigned int size_;
+		};
+
 		LineList lines_;
 		unsigned int len_;
-
-		/// Check if this line belongs to this result.
-		virtual bool check_(const Line &l) const = 0;
 	};
 }
 
