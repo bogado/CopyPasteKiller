@@ -89,6 +89,9 @@ namespace analisys {
 
 	inline const Line &File::operator [](int n) const
 	{
+		if (n >= lines_.size() && n < 0)
+			throw(NoSuchLine(filename_));
+
 		return lines_[n];
 	}
 
