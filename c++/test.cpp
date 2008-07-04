@@ -7,9 +7,8 @@
 int main()
 {
 	analisys::FileDB fdb;
-	fdb.addFile("test.cpp");
-	fdb.addFile("line.cpp");
-	fdb.addFile("line.h");
+	fdb.addFile("../teste1");
+	fdb.addFile("../teste2");
 
 	std::cout << fdb.check() << "\n";
 }
