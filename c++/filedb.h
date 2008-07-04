@@ -40,7 +40,7 @@ namespace analisys {
 			for(std::vector<File>::iterator f = files_.begin(); f != files_.end(); ++f)
 				for(int l = 0; l < f->size(); l++)
 				{
-					if (lines_.count((*f)[l].key()) > 1)
+					if (lines_.count((*f)[l].key()) <= 1)
 						continue;
 
 					std::pair<LinesMultimap::iterator, LinesMultimap::iterator> range;
