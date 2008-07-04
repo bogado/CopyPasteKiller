@@ -5,7 +5,7 @@ std::ostream &analisys::operator <<(std::ostream &out, const analisys::Line &me)
 	return out << me.file() << ":" << me.num();
 }
 
-analisys::Line analisys::Line::operator +(int n) const
+const analisys::Line &analisys::Line::operator +(int n) const
 {
 	return (*file_)[num_ + n];
 }

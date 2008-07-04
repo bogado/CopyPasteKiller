@@ -33,7 +33,7 @@ namespace analisys {
 			return content_;
 		}
 
-		Line operator +(int n) const;
+		const Line &operator +(int n) const;
 
 		bool valid(int n = 0) const;
 
