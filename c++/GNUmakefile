@@ -1,9 +1,7 @@
 CXXFLAGS += -I$(HOME)/usr/include -O0 -g
 LDFLAGS += -lmhash -L$(HOME)/usr/lib -L$(HOME)/usr/lib64
 
-SRCS = \
-	   test.cpp \
-	   line.cpp \
+SRCS = $(wildcard *.cpp)
 
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
