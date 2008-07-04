@@ -7,7 +7,7 @@
 #include <vector>
 #include <stdexcept>
 
-#include "line.h"
+#include <boost/shared_ptr.hpp>
 
 namespace analisys {
 
@@ -19,75 +19,56 @@ namespace analisys {
 		{}
 	};
 
-	class File
+	class Line;
+
+	class FileInt
 	{
 	public:
-		File(std::string filename);
+		virtual unsigned int size() const = 0;
 
-		File(const File &file) : filename_(file.filename()), lines_(file.lines_)
-		{
-			fixLines_();
-		}
+		virtual const Line &operator [](int n) const = 0;
+		virtual Line &operator [](int n) = 0;
 
-		File &operator =(File &file)
-		{
-			lines_ = file.lines_;
-			filename_ = file.filename();
-			fixLines_();
-		}
+		virtual bool operator ==(const FileInt &b) const = 0;
+		virtual bool operator !=(const FileInt &b) const = 0;
+
+		virtual std::string filename() const = 0;
+	};
+
+	inline std::ostream &operator << (std::ostream& out, const FileInt &me)
+	{
+		return out << me.filename();
+	}
+
+	class FileImpl : public FileInt
+	{
+	public:
+		FileImpl(std::string filename);
 
 		unsigned int size() const;
 
 		const Line &operator [](int n) const;
 		Line &operator [](int n);
 
-		friend bool operator ==(const File &a, const File &b);
-		friend bool operator !=(const File &a, const File &b);
+		bool operator ==(const FileInt &b) const;
+		bool operator !=(const FileInt &b) const;
 
 		std::string filename() const
 		{
 			return filename_;
 		}
 
-		friend std::ostream &operator << (std::ostream& out, const File &me)
-		{
-			return out << me.filename_;
-		}
-
 	private:
-
-		void fixLines_()
-		{
-			for(std::vector<Line>::iterator i = lines_.begin(); i != lines_.end(); ++i)
-				i->setFile(this);
-		}
-
 		std::string filename_;
 		std::vector<Line> lines_;
 	};
 
-	inline File::File(std::string filename) : filename_(filename)
-	{
-		std::fstream file(filename.c_str(), std::fstream::in);
-
-		unsigned int n = 0;
-		std::string l;
-		while ( !file.eof() )
-		{
-			std::getline(file, l);
-			lines_.push_back(Line(this, n, l));
-			n++;
-		}
-
-		file.close();
-	}
-
-	inline unsigned int File::size() const
+	inline unsigned int FileImpl::size() const
 	{
 		return lines_.size();
 	}
 
-	inline const Line &File::operator [](int n) const
+	inline const Line &FileImpl::operator [](int n) const
 	{
 		if (n >= lines_.size() && n < 0)
 			throw(NoSuchLine(filename_));
@@ -95,7 +76,7 @@ namespace analisys {
 		return lines_[n];
 	}
 
-	inline Line &File::operator [](int n)
+	inline Line &FileImpl::operator [](int n)
 	{
 		if (n >= lines_.size() && n < 0)
 			throw(NoSuchLine(filename_));
@@ -103,15 +84,55 @@ namespace analisys {
 		return lines_[n];
 	}
 
-	inline bool operator !=(const File &a, const File &b)
+	inline bool FileImpl::operator !=(const FileInt &b) const
 	{
-		return a.filename_ == b.filename_;
+		return filename_ != b.filename();
 	}
 
-	inline bool operator ==(const File &a, const File &b)
+	inline bool FileImpl::operator ==(const FileInt &b) const
 	{
-		return a.filename_ == b.filename_;
+		return filename_ == b.filename();
 	}
+
+	class File : public FileInt
+	{
+	public:
+		File(std::string filename) : impl_(new FileImpl(filename))
+		{}
+
+		virtual unsigned int size() const
+		{
+			return impl_->size();
+		}
+
+		virtual const Line &operator [](int n) const
+		{
+			return (*impl_)[n];
+		}
+
+		virtual Line &operator [](int n)
+		{
+			return (*impl_)[n];
+		}
+
+		virtual bool operator ==(const FileInt &b) const
+		{
+			return (*impl_) == b;
+		}
+
+		virtual bool operator !=(const FileInt &b) const
+		{
+			return (*impl_) != b;
+		}
+
+		virtual std::string filename() const
+		{
+			return impl_->filename();
+		}
+
+	private:
+		boost::shared_ptr<FileImpl> impl_;
+	};
 }
 
 #endif

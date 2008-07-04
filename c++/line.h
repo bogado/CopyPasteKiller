@@ -7,9 +7,6 @@
 
 namespace analisys {
 
-	class File;
-	bool operator==(const File &a, const File &b);
-
 	class Line
 	{
 	public:
@@ -23,7 +20,7 @@ namespace analisys {
 			return num_;
 		}
 
-		const File &file() const
+		const FileInt &file() const
 		{
 			return *file_;
 		}
@@ -43,19 +40,14 @@ namespace analisys {
 		}
 
 	private:
-		friend class File;
+		friend class FileImpl;
 
-		Line(const File *file, unsigned int num, std::string content) : file_(file), num_(num), content_(content)
+		Line(const FileInt *file, unsigned int num, std::string content) : file_(file), num_(num), content_(content)
 		{
 			key_ = Hash::hash(content_);
 		}
 
-		void setFile(File *file)
-		{
-			file_ = file;
-		}
-
-		const File* file_;
+		const FileInt* file_;
 		unsigned int num_;
 		std::string content_;
 		std::string key_;
@@ -63,6 +55,5 @@ namespace analisys {
 
 	std::ostream &operator <<(std::ostream &out, const Line &me);
 }
-
 
 #endif
