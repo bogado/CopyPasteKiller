@@ -7,7 +7,7 @@
 #include <vector>
 #include <stdexcept>
 
-#include <boost/shared_ptr.hpp>
+#include <tr1/memory>
 
 namespace analisys {
 
@@ -131,7 +131,7 @@ namespace analisys {
 		}
 
 	private:
-		boost::shared_ptr<FileImpl> impl_;
+		std::tr1::shared_ptr<FileImpl> impl_;
 	};
 }
 
