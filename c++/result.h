@@ -98,6 +98,7 @@ namespace analisys {
 					out << ", ";
 				out << (*i);
 			}
+			out << ")";
 		}
 
 	private:
