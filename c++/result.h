@@ -60,7 +60,7 @@ namespace analisys {
 					checker);
 
 			// is this a trivial result?
-			if (newEnd == lines_.begin() || newEnd == lines_.begin()++)
+			if (newEnd == lines_.begin())
 				return false;
 
 			len_++;
