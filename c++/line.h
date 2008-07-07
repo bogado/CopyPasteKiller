@@ -36,7 +36,7 @@ namespace analisys {
 
 		bool operator== (const Line &l) const
 		{
-			return l.file() == file() && num_ == l.num();
+			return l.key() == key();
 		}
 
 	private:
