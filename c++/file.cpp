@@ -11,10 +11,10 @@ FileImpl::FileImpl(std::string filename) : filename_(filename)
 	std::string l;
 	while ( !file.eof() )
 	{
-		n++;
 		std::getline(file, l);
 		if (!file.eof())
 			lines_.push_back(Line(this, n, l));
+		n++;
 	}
 
 	file.close();

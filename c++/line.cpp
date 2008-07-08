@@ -4,7 +4,7 @@ namespace analisys {
 
 	std::ostream &operator <<(std::ostream &out, const Line &me)
 	{
-		return out << me.file() << ":" << me.num();
+		return out << me.file() << ":" << (me.num() + 1);
 	}
 
 	const Line &analisys::Line::operator +(int n) const
