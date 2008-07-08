@@ -54,7 +54,7 @@ namespace analisys {
 		template <class ResultChecker>
 		bool grow(ResultChecker &checker)
 		{
-			checker.setSize(len_ + 1);
+			checker.setSize(len_);
 			// Puts all the lines that pass the check on front.
 			LineList::iterator newEnd = partition(lines_.begin(), lines_.end(),
 					checker);
