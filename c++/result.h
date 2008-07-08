@@ -22,10 +22,22 @@ namespace analisys {
 
 		bool operator()(const Line &l)
 		{
+//			std::cout << l << " check " << line_ << " with size : " << size_ << "? ";
 			if (!l.valid(size_) || !line_.valid(size_))
+			{
+//				std::cout << "false!\n";
 				return false;
 
-			return (l + size_) == (line_ + size_);
+			}
+			if ((l + size_) == (line_ + size_))
+			{
+//				std::cout << "true\n";
+				return true;
+			} else
+			{
+//				std::cout << "false\n";
+				return false;
+			}
 		}
 	private:
 		Line line_;
@@ -56,8 +68,7 @@ namespace analisys {
 		{
 			checker.setSize(len_);
 			// Puts all the lines that pass the check on front.
-			LineList::iterator newEnd = partition(lines_.begin(), lines_.end(),
-					checker);
+			LineList::iterator newEnd = partition(lines_.begin(), lines_.end(), checker);
 
 			// is this a trivial result?
 			if (newEnd == ++(lines_.begin()))
