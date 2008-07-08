@@ -22,10 +22,10 @@ namespace analisys {
 
 		bool operator()(const Line &l)
 		{
-			if (!l.valid(size_))
+			if (!l.valid(size_) || !line_.valid(size_))
 				return false;
 
-			return (l + size_) == line_;
+			return (l + size_) == (line_ + size_);
 		}
 	private:
 		Line line_;
