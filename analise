@@ -69,8 +69,13 @@ end
 
 wasted = 0
 result.each do |match|
-	print "#{match.join(", ")}\n\n"
+	print "#{match[0].size} ("
+	lines = match.map do |chunk|
+		chunk.line
+	end
+	print lines.join(", ")
+	print ")\n"
 	wasted += (match.size - 1) * match[0].size
 end
 
-print "Found #{result.size} matching blocks. approxamately #{100*wasted/indexer.num_lines}% of lines are wasted.\n"
+#print "Found #{result.size} matching blocks. approxamately #{100*wasted/indexer.num_lines}% of lines are wasted.\n"
