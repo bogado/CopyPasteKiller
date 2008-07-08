@@ -14,13 +14,15 @@ namespace analisys {
 
 	bool Line::valid(int n) const
 	{
-		if (n <= 0 && n + num_ >= 0)
-			return true;
+		if (n <= 0)
+			if (n + num_ >= 0)
+				return true;
+			else
+				return false;
 
 		if (n + num_ < file_->size())
 			return true;
 
 		return false;
 	}
-
 }
