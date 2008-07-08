@@ -60,8 +60,11 @@ namespace analisys {
 					checker);
 
 			// is this a trivial result?
-			if (newEnd == lines_.begin())
+			if (newEnd == ++(lines_.begin()))
+			{
+				lines_.sort();
 				return false;
+			}
 
 			len_++;
 			lines_.erase(newEnd, lines_.end());

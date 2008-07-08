@@ -39,6 +39,16 @@ namespace analisys {
 			return l.key() == key();
 		}
 
+		bool operator< (const Line &l) const
+		{
+			if (file() != l.file())
+			{
+				return file().filename() < l.file().filename();
+			}
+
+			return num_ < l.num_;
+		}
+
 	private:
 		friend class FileImpl;
 
