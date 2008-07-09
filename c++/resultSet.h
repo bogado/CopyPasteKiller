@@ -12,7 +12,7 @@ namespace analisys {
 	class ResultSet
 	{
 	public:
-		typedef std::vector<Result> ResultList;
+		typedef std::vector<Result> ResultArr;
 
 		void add(Result r)
 		{
@@ -47,7 +47,7 @@ namespace analisys {
 
 		bool belongs(const Line &l)
 		{
-			for(ResultList::iterator i = results_.begin(); i != results_.end(); ++i)
+			for(ResultArr::iterator i = results_.begin(); i != results_.end(); ++i)
 			{
 				if (i->belongs(l))
 					return true;
@@ -58,8 +58,8 @@ namespace analisys {
 
 		friend std::ostream &operator << (std::ostream &out, const ResultSet &me)
 		{
-			ResultList::const_iterator begin = me.results_.begin(); 
-			for (ResultList::const_iterator i = begin; i != me.results_.end(); ++i)
+			ResultArr::const_iterator begin = me.results_.begin();
+			for (ResultArr::const_iterator i = begin; i != me.results_.end(); ++i)
 			{
 				if (i != begin)
 					out << "\n";
@@ -71,12 +71,12 @@ namespace analisys {
 		void simplify()
 		{
 			sort(results_.begin(), results_.end());
-			ResultList::iterator newEnd = unique(results_.begin(), results_.end());
+			ResultArr::iterator newEnd = unique(results_.begin(), results_.end());
 			results_.erase(newEnd, results_.end());
 		}
 
 	private:
-		ResultList results_;
+		ResultArr results_;
 	};
 }
 
