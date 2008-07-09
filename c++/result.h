@@ -91,6 +91,20 @@ namespace analisys {
 			return find_if(lines_.begin(), lines_.end(), checker) == lines_.end();
 		}
 
+		bool belongs(const Result &res) const
+		{
+			for (LineList::const_iterator i = res.lines_.begin(); i != res.lines_.end(); ++i)
+			{
+				if (!belongs(*i))
+					return false;
+
+				if (!belongs(*i + res.size()))
+					return false;
+			}
+
+			return true;
+		}
+
 		friend std::ostream &operator <<(std::ostream &out, const Result &me)
 		{
 			out << me.length() << " (";
