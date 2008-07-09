@@ -98,7 +98,7 @@ namespace analisys {
 				if (!belongs(*i))
 					return false;
 
-				if (!belongs(*i + res.size()))
+				if (i->valid(res.size()) && !belongs(*i + res.size()))
 					return false;
 			}
 
