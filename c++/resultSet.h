@@ -85,7 +85,9 @@ namespace analisys {
 						break;
 
 					if ((*i).belongs(*j))
-						include[n] = true;
+					{
+						include[n] = false;
+					}
 				}
 			}
 
@@ -93,9 +95,11 @@ namespace analisys {
 			for (ResultArr::iterator j = results_.begin(); j != results_.end(); ++i)
 			{
 				if (include[i])
+				{
 					++j;
-				else
+				} else {
 					results_.erase(j);
+				}
 			}
 		}
 

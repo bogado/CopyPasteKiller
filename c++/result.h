@@ -88,7 +88,7 @@ namespace analisys {
 		{
 			CheckLine checker(l, len_);
 
-			return find_if(lines_.begin(), lines_.end(), checker) == lines_.end();
+			return find_if(lines_.begin(), lines_.end(), checker) != lines_.end();
 		}
 
 		bool belongs(const Result &res) const
@@ -165,7 +165,7 @@ namespace analisys {
 				if (l.file() != line_.file())
 					return false;
 
-				if (l.num() >= line_.num() && l.num() < line_.num() + size_)
+				if (line_.num() >= l.num() && line_.num() < l.num() + size_)
 					return true;
 
 				return false;
