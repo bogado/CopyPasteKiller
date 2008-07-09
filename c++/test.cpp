@@ -1,6 +1,7 @@
 #include "hash.h"
 #include "filedb.h"
 #include "result.h"
+#include "resultSet.h"
 
 #include <iostream>
 
@@ -11,7 +12,10 @@ int main()
 	fdb.addFile("../teste1");
 	fdb.addFile("../teste2");
 
-	std::cout << fdb.check() << "\n";
+	analisys::ResultSet results = fdb.check();
+	results.simplify();
+
+	std::cout << results << "\n";
 #else
 
 	analisys::File f1 = analisys::File("../teste1");

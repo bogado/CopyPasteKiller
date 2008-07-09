@@ -68,6 +68,13 @@ namespace analisys {
 			return out;
 		}
 
+		void simplify()
+		{
+			sort(results_.begin(), results_.end());
+			ResultList::iterator newEnd = unique(results_.begin(), results_.end());
+			results_.erase(newEnd, results_.end());
+		}
+
 	private:
 		ResultList results_;
 	};
