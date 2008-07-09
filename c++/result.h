@@ -118,6 +118,41 @@ namespace analisys {
 			out << ")";
 		}
 
+		bool operator==(const Result &res) const
+		{
+			if (res.length() != length())
+				return false;
+
+			if (res.size() != size())
+				return false;
+
+			LineList::const_iterator j = res.lines_.begin();
+			for(LineList::const_iterator i = lines_.begin(); i != lines_.end(); i++)
+			{
+				if (!((*i) == (*j)))
+					return false;
+			}
+
+			return true;
+		}
+
+		bool operator<(const Result &res) const
+		{
+			if (length() < res.length())
+				return true;
+
+			if (length() > res.length())
+				return false;
+
+			if (size() < res.size())
+				return true;
+
+			if (size() > res.size())
+				return false;
+
+			return (*lines_.begin()) < (*res.lines_.begin());
+		}
+
 	private:
 		class CheckLine
 		{
