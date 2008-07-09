@@ -73,6 +73,30 @@ namespace analisys {
 			sort(results_.begin(), results_.end());
 			ResultArr::iterator newEnd = unique(results_.begin(), results_.end());
 			results_.erase(newEnd, results_.end());
+
+			std::vector<bool> include(results_.size(), true);
+			for (ResultArr::reverse_iterator i = results_.rbegin(); i != results_.rend(); i++)
+			{
+				int n = 0;
+				for (ResultArr::reverse_iterator j = results_.rend(); ; ++n)
+				{
+					--j;
+					if (j == i)
+						break;
+
+					if ((*i).belongs(*j))
+						include[n] = true;
+				}
+			}
+
+			int i = 0;
+			for (ResultArr::iterator j = results_.begin(); j != results_.end(); ++i)
+			{
+				if (include[i])
+					++j;
+				else
+					results_.erase(j);
+			}
 		}
 
 	private:
