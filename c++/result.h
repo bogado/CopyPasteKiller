@@ -162,10 +162,10 @@ namespace analisys {
 
 			bool operator() (const Line &l)
 			{
-				if (l.file() != line_.file())
+				if (line_.num() < l.num() || line_.num() >= l.num() + size_)
 					return false;
 
-				if (line_.num() >= l.num() && line_.num() < l.num() + size_)
+				if (l.file() == line_.file())
 					return true;
 
 				return false;
