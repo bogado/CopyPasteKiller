@@ -40,6 +40,8 @@ namespace analisys {
 			for(std::vector<File>::iterator f = files_.begin(); f != files_.end(); ++f)
 				for(int l = 0; l < f->size(); l++)
 				{
+					std::cout << "\e[K\r" << (*f)[l]; std::cout.flush();
+
 					if (lines_.count((*f)[l].key()) <= 1)
 						continue;
 
