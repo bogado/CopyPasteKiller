@@ -19,6 +19,7 @@ int main(int argc, const char *argv[])
 		fdb.addFile(argv[i]);
 
 	analisys::ResultSet results = fdb.check();
+
 	results.simplify();
 
 	std::cout << results << "\n";

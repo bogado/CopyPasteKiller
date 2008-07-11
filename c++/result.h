@@ -2,6 +2,7 @@
 #define RESULT_H_INCLUDED
 
 #include <list>
+#include <vector>
 #include <algorithm>
 #include <iostream>
 
@@ -54,20 +55,44 @@ namespace analisys {
 		template <class ResultChecker>
 		bool grow(ResultChecker &checker)
 		{
+			std::vector<bool> newList(lines_.size(), false);
 			checker.setSize(len_);
 			// Puts all the lines that pass the check on front.
-			LineList::iterator newEnd = partition(lines_.begin(), lines_.end(),
-					checker);
+//			LineList::iterator newEnd = partition(lines_.begin(), lines_.end(),
+//					checker);
+
+			int n = 0;
+			int res = lines_.size();
+			for (LineList::iterator i = lines_.begin(); i != lines_.end(); ++i)
+			{
+				if (!checker(*i))
+				{
+					newList[n]= true;
+					res--;
+				}
+				n++;
+			}
 
 			// is this a trivial result?
-			if (newEnd == ++(lines_.begin()) || newEnd == lines_.begin())
+			if (res < 2)
 			{
 				lines_.sort();
 				return false;
 			}
 
 			len_++;
-			lines_.erase(newEnd, lines_.end());
+			LineList::iterator itr = lines_.begin();
+			for (int i = 0; i < newList.size(); i++)
+			{
+				if (newList[i])
+				{
+					LineList::iterator old = itr;
+					itr++;
+					lines_.erase(old);
+				} else
+					++itr;
+			}
+
 			return true;
 		}
 
