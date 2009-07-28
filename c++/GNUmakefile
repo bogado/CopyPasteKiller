@@ -10,4 +10,6 @@ test: $(OBJS)
 
 test.o: $(SRCS) $(wildcard *.h)
 
+clean:
+	rm *.o test
 
