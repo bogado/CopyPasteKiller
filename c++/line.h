@@ -1,7 +1,6 @@
 #ifndef LINE_H_INCLUDED_
 #define LINE_H_INCLUDED_
 
-#include "hash.h"
 #include "file.h"
 #include <tr1/unordered_map>
 

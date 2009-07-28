@@ -1,4 +1,3 @@
-#include "hash.h"
 #include "filedb.h"
 #include "result.h"
 #include "resultSet.h"

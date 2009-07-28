@@ -137,7 +137,7 @@ namespace analisys {
 			for (LineList::const_iterator i = begin; i != me.lines_.end(); ++i)
 			{
 				if (i != begin)
-					out << ", ";
+					out << " ";
 				out << (*i);
 			}
 			out << ")";
