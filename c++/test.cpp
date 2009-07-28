@@ -12,6 +12,17 @@ std::string removeSpaces(const std::string& str)
 	return std::tr1::regex_replace(str, remove, " ");
 }
 
+std::string removeSingleLineCppComments(const std::string& str)
+{
+	static std::tr1::regex remove("//.*");
+	return std::tr1::regex_replace(str, remove, "");
+}
+
+std::string removeCommentsAndSpaces(const std::string& str)
+{
+	return removeSpaces(removeSingleLineCppComments(str));
+}
+
 int main(int argc, const char *argv[])
 {
 	if (argc == 1)
@@ -20,7 +31,7 @@ int main(int argc, const char *argv[])
 		return 127;
 	}
 
-	analisys::Simplifier::setup(removeSpaces);
+	analisys::Simplifier::setup(removeCommentsAndSpaces);
 	analisys::FileDB fdb;
 
 	for (int i = 1; i < argc; i++)
