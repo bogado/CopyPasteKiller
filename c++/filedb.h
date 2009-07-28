@@ -64,20 +64,6 @@ namespace analisys {
 	private:
 		std::vector<File> files_;
 		LinesMultimap lines_;
-
-		class Comparator
-		{
-		public:
-			Comparator(const Line &l) : line_(l)
-			{}
-
-			bool operator()(const Line &l)
-			{
-				return l == line_;
-			}
-		private:
-			const Line &line_;
-		};
 	};
 }
 

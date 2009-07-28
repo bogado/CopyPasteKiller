@@ -2,6 +2,8 @@
 #define LINE_H_INCLUDED_
 
 #include "file.h"
+#include "simplifier.h"
+
 #include <unordered_map>
 
 namespace analisys {
@@ -51,9 +53,9 @@ namespace analisys {
 	private:
 		friend class FileImpl;
 
-		Line(const FileInt *file, unsigned int num, std::string content) : file_(file), num_(num), content_(content)
+		Line(const FileInt *file, unsigned int num, const std::string& content) : file_(file), num_(num), content_(content)
 		{
-			key_ = Hash::hash(content_);
+			key_ = Simplifier::simplify(content);
 		}
 
 		const FileInt* file_;
