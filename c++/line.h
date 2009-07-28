@@ -11,7 +11,7 @@ namespace analisys {
 	public:
 		std::string key() const
 		{
-			return content_;
+			return key_;
 		}
 
 		unsigned int num() const
@@ -52,11 +52,14 @@ namespace analisys {
 		friend class FileImpl;
 
 		Line(const FileInt *file, unsigned int num, std::string content) : file_(file), num_(num), content_(content)
-		{}
+		{
+			key_ = Hash::hash(content_);
+		}
 
 		const FileInt* file_;
 		unsigned int num_;
 		std::string content_;
+		std::string key_;
 	};
 
 	std::ostream &operator <<(std::ostream &out, const Line &me);
