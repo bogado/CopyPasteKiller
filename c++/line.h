@@ -2,7 +2,7 @@
 #define LINE_H_INCLUDED_
 
 #include "file.h"
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 namespace analisys {
 

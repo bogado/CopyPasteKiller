@@ -7,7 +7,7 @@
 #include <vector>
 #include <stdexcept>
 
-#include <tr1/memory>
+#include <memory>
 
 namespace analisys {
 
