@@ -11,11 +11,19 @@
 
 namespace analisys {
 
+	class NoSuchFile : public std::runtime_error
+	{
+	public:
+		NoSuchFile(std::string filename) :
+			std::runtime_error(std::string("No such file ") + filename)
+		{}
+	};
+
 	class NoSuchLine : public std::runtime_error
 	{
 	public:
 		NoSuchLine(std::string filename) :
-			std::runtime_error(std::string("No such line on file") + filename)
+			std::runtime_error(std::string("No such line on file ") + filename)
 		{}
 	};
 
@@ -51,7 +59,12 @@ namespace analisys {
 
 	private:
 		File(std::string filename) : filename_(filename) 
-		{}
+		{
+			std::fstream f(filename.c_str());
+
+			if (f.fail())
+				throw NoSuchFile(filename);
+		}
 
 		void init(Ptr file);
 
