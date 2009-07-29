@@ -30,7 +30,6 @@ int main(int argc, const char *argv[])
 
 	for (int i = 1; i < argc; i++)
 	{
-		std::cout << i << "\n";
 		if (std::string("-c") == argv[i])
 		{
 			analisys::Simplifier::setup(removeSingleLineCppComments);
