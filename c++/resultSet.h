@@ -89,12 +89,8 @@ namespace analisys {
 			for (ResultArr::reverse_iterator i = results_.rbegin(); i != results_.rend(); i++)
 			{
 				int n = 0;
-				for (ResultArr::reverse_iterator j = results_.rend(); ; ++n)
+				for (ResultArr::reverse_iterator j = (--results_.rend()); j != i; ++n, --j)
 				{
-					--j;
-					if (j == i)
-						break;
-
 					if ((*i).belongs(*j))
 					{
 						include[n] = false;
