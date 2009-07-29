@@ -53,10 +53,8 @@ namespace analisys {
 	private:
 		friend class File;
 
-		Line(File::Ptr file, unsigned int num, std::string content) : file_(file), num_(num), content_(content)
-		{
-			key_ = Simplifier::doit(content_);
-		}
+		Line(File::Ptr file, unsigned int num, std::string content) : file_(file), num_(num), content_(content), key_(Simplifier::doit(content))
+		{}
 
 		File::WeakPtr file_;
 		unsigned num_;
