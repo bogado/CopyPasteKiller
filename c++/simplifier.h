@@ -46,7 +46,7 @@ public:
 
 	static std::string doit(std::string str)
 	{
-		instance().execute(str);
+		return instance().execute(str);
 	}
 
 private:
