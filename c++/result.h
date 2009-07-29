@@ -163,16 +163,19 @@ namespace analisys {
 
 		bool operator<(const Result &res) const
 		{
+			unsigned lenXsiz1 = length() * size();
+			unsigned lenXsiz2 = res.length() * res.size();
+
+			if (lenXsiz1 < lenXsiz2)
+				return true;
+
+			if (lenXsiz1 > lenXsiz2)
+				return false;
+
 			if (length() < res.length())
 				return true;
 
 			if (length() > res.length())
-				return false;
-
-			if (size() < res.size())
-				return true;
-
-			if (size() > res.size())
 				return false;
 
 			return (*lines_.begin()) < (*res.lines_.begin());
