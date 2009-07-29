@@ -84,6 +84,7 @@ namespace analisys {
 			ResultArr::iterator newEnd = unique(results_.begin(), results_.end());
 			results_.erase(newEnd, results_.end());
 
+			unsigned passo = 0;
 			std::vector<bool> include(results_.size(), true);
 			for (ResultArr::reverse_iterator i = results_.rbegin(); i != results_.rend(); i++)
 			{
@@ -99,7 +100,12 @@ namespace analisys {
 						include[n] = false;
 					}
 				}
+
+				std::cerr << "\e[K\r" << passo*100/results_.size() << "%"; std::cout.flush();
+				passo ++;
 			}
+
+			std::cerr << "\e[K\r"; std::cout.flush();
 
 			int i = 0;
 			for (ResultArr::iterator j = results_.begin(); j != results_.end(); ++i)
