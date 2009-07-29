@@ -35,7 +35,7 @@ namespace analisys {
 				for(unsigned l = 0; l < (*f)->size(); l++)
 				{
 					File::Ptr fl = *f;
-					std::cout << "\e[K\r" << (*fl)[l]; std::cout.flush();
+					std::cerr << "\e[K\r" << (*fl)[l]; std::cout.flush();
 
 					if (lines_.count((*fl)[l].key()) <= 1)
 						continue;
@@ -54,7 +54,7 @@ namespace analisys {
 					}
 				}
 
-			std::cout << "\e[K\r"; std::cout.flush();
+			std::cerr << "\e[K\r"; std::cout.flush();
 			return ret;
 		}
 
