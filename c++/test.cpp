@@ -6,6 +6,12 @@
 #include <regex>
 #include <string>
 
+std::string removeSpacesHard(std::string str)
+{
+	std::tr1::regex remove("\\s+");
+	return std::tr1::regex_replace(str, remove, "");
+}
+
 std::string removeSpaces(std::string str)
 {
 	std::tr1::regex remove("\\s+");
@@ -33,6 +39,9 @@ int main(int argc, const char *argv[])
 		if (std::string("-c") == argv[i])
 		{
 			analisys::Simplifier::setup(removeSingleLineCppComments);
+		} else if (std::string("-S") == argv[i]) 
+		{
+			analisys::Simplifier::setup(removeSpacesHard);
 		} else if (std::string("-s") == argv[i]) 
 		{
 			analisys::Simplifier::setup(removeSpaces);
