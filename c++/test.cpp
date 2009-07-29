@@ -6,13 +6,13 @@
 #include <regex>
 #include <string>
 
-std::string removeSpaces(const std::string& str)
+std::string removeSpaces(std::string str)
 {
 	std::tr1::regex remove("\\s+");
 	return std::tr1::regex_replace(str, remove, " ");
 }
 
-std::string removeSingleLineCppComments(const std::string& str)
+std::string removeSingleLineCppComments(std::string str)
 {
 	std::tr1::regex remove("//.*");
 	return std::tr1::regex_replace(str, remove, "");

@@ -44,26 +44,26 @@ public:
 		instance().add(new SimplifierEncapsuler<Tipo>(functor));
 	}
 
-	static std::string doit(const std::string& str)
+	static std::string doit(std::string str)
 	{
 		instance().execute(str);
 	}
 
 private:
-	Simplifier() : simplifier_() {}
+	Simplifier() : simplifier_()
+	{}
 
 	void add(SimplifierInt* simp)
 	{
 		simplifier_.push_back(Ptr(simp));
 	}
 
-	std::string execute(const std::string& str)
+	std::string execute(std::string str)
 	{
 		std::string result = str;
 
 		for(Vector::iterator i = simplifier_.begin(); i != simplifier_.end(); ++i)
 		{
-			std::cout << "aqui : " << result;
 			result = (*i)->simplify(result);
 		}
 
