@@ -53,6 +53,8 @@ namespace analisys {
 						++l;
 					}
 				}
+
+			std::cout << "\e[K\r"; std::cout.flush();
 			return ret;
 		}
 
