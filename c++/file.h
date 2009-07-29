@@ -21,37 +21,28 @@ namespace analisys {
 
 	class Line;
 
-	class FileInt
+	class File
 	{
 	public:
-		virtual unsigned int size() const = 0;
+		typedef std::tr1::shared_ptr<File> Ptr;
+		typedef std::tr1::weak_ptr<File> WeakPtr;
 
-		virtual const Line &operator [](int n) const = 0;
-		virtual Line &operator [](int n) = 0;
+		static Ptr build(std::string filename) 
+		{
+			Ptr file = Ptr(new File(filename));
+	
+			file->init(file);
 
-		virtual bool operator ==(const FileInt &b) const = 0;
-		virtual bool operator !=(const FileInt &b) const = 0;
-
-		virtual std::string filename() const = 0;
-	};
-
-	inline std::ostream &operator << (std::ostream& out, const FileInt &me)
-	{
-		return out << me.filename();
-	}
-
-	class FileImpl : public FileInt
-	{
-	public:
-		FileImpl(std::string filename);
+			return file;
+		}
 
 		unsigned int size() const;
 
-		const Line &operator [](int n) const;
-		Line &operator [](int n);
+		const Line &operator [](unsigned n) const;
+		Line &operator [](unsigned n);
 
-		bool operator ==(const FileInt &b) const;
-		bool operator !=(const FileInt &b) const;
+		bool operator ==(const File &b) const;
+		bool operator !=(const File &b) const;
 
 		std::string filename() const
 		{
@@ -59,80 +50,37 @@ namespace analisys {
 		}
 
 	private:
+		File(std::string filename) : filename_(filename) 
+		{}
+
+		void init(Ptr file);
+
 		std::string filename_;
 		std::vector<Line> lines_;
 	};
 
-	inline unsigned int FileImpl::size() const
+	inline unsigned int File::size() const
 	{
 		return lines_.size();
 	}
 
-	inline const Line &FileImpl::operator [](int n) const
+	inline const Line &File::operator [](unsigned n) const
 	{
-		if (n >= lines_.size() && n < 0)
+		return const_cast<const Line &>(const_cast<File &>(*this)[n]);
+	}
+
+	inline Line &File::operator [](unsigned n)
+	{
+		if (n >= lines_.size())
 			throw(NoSuchLine(filename_));
 
 		return lines_[n];
 	}
 
-	inline Line &FileImpl::operator [](int n)
+	inline std::ostream &operator << (std::ostream& out, const File &me)
 	{
-		if (n >= lines_.size() && n < 0)
-			throw(NoSuchLine(filename_));
-
-		return lines_[n];
+		return out << me.filename();
 	}
-
-	inline bool FileImpl::operator !=(const FileInt &b) const
-	{
-		return filename_ != b.filename();
-	}
-
-	inline bool FileImpl::operator ==(const FileInt &b) const
-	{
-		return filename_ == b.filename();
-	}
-
-	class File : public FileInt
-	{
-	public:
-		File(std::string filename) : impl_(new FileImpl(filename))
-		{}
-
-		virtual unsigned int size() const
-		{
-			return impl_->size();
-		}
-
-		virtual const Line &operator [](int n) const
-		{
-			return (*impl_)[n];
-		}
-
-		virtual Line &operator [](int n)
-		{
-			return (*impl_)[n];
-		}
-
-		virtual bool operator ==(const FileInt &b) const
-		{
-			return (*impl_) == b;
-		}
-
-		virtual bool operator !=(const FileInt &b) const
-		{
-			return (*impl_) != b;
-		}
-
-		virtual std::string filename() const
-		{
-			return impl_->filename();
-		}
-
-	private:
-		std::tr1::shared_ptr<FileImpl> impl_;
-	};
 }
 
 #endif

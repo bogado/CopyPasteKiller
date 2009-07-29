@@ -2,6 +2,9 @@
 #define SIMPLIFIER_H_INCLUDED
 
 #include <string>
+#include <vector>
+#include <memory>
+#include <iostream>
 
 namespace analisys {
 
@@ -32,27 +35,48 @@ private:
 class Simplifier
 {
 public:
+	typedef std::tr1::shared_ptr<SimplifierInt> Ptr;
+	typedef std::vector< Ptr > Vector;
+
 	template <typename Tipo>
 	static void setup(Tipo functor)
 	{
-		setupSimplifier(new SimplifierEncapsuler<Tipo>(functor));
+		instance().add(new SimplifierEncapsuler<Tipo>(functor));
 	}
 
-	static void setupSimplifier(SimplifierInt* simp)
+	static std::string doit(const std::string& str)
 	{
-		simplifier_ = simp;
-	}
-
-	static std::string simplify(const std::string& str)
-	{
-		if (simplifier_ == NULL)
-			return str;
-
-		return simplifier_->simplify(str);
+		instance().execute(str);
 	}
 
 private:
-	static SimplifierInt* simplifier_;
+	Simplifier() : simplifier_() {}
+
+	void add(SimplifierInt* simp)
+	{
+		simplifier_.push_back(Ptr(simp));
+	}
+
+	std::string execute(const std::string& str)
+	{
+		std::string result = str;
+
+		for(Vector::iterator i = simplifier_.begin(); i != simplifier_.end(); ++i)
+		{
+			std::cout << "aqui : " << result;
+			result = (*i)->simplify(result);
+		}
+
+		return result;
+	}
+
+	static Simplifier& instance()
+	{
+		static Simplifier singleton;
+		return singleton;
+	}
+
+	Vector simplifier_;
 };
 
 }

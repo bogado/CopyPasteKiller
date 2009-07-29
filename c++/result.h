@@ -82,7 +82,7 @@ namespace analisys {
 
 			len_++;
 			LineList::iterator itr = lines_.begin();
-			for (int i = 0; i < newList.size(); i++)
+			for (unsigned i = 0; i < newList.size(); i++)
 			{
 				if (newList[i])
 				{

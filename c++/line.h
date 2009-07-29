@@ -21,9 +21,9 @@ namespace analisys {
 			return num_;
 		}
 
-		const FileInt &file() const
+		const File::Ptr file() const
 		{
-			return *file_;
+			return file_.lock();
 		}
 
 		std::string content() const
@@ -33,7 +33,7 @@ namespace analisys {
 
 		const Line &operator +(int n) const;
 
-		bool valid(int n = 0) const;
+		bool valid(unsigned n = 0) const;
 
 		bool operator== (const Line &l) const
 		{
@@ -44,22 +44,22 @@ namespace analisys {
 		{
 			if (file() != l.file())
 			{
-				return file().filename() < l.file().filename();
+				return file()->filename() < l.file()->filename();
 			}
 
 			return num_ < l.num_;
 		}
 
 	private:
-		friend class FileImpl;
+		friend class File;
 
-		Line(const FileInt *file, unsigned int num, const std::string& content) : file_(file), num_(num), content_(content)
+		Line(File::Ptr file, unsigned int num, std::string content) : file_(file), num_(num), content_(content)
 		{
-			key_ = Simplifier::simplify(content);
+			key_ = Simplifier::doit(content_);
 		}
 
-		const FileInt* file_;
-		unsigned int num_;
+		File::WeakPtr file_;
+		unsigned num_;
 		std::string content_;
 		std::string key_;
 	};

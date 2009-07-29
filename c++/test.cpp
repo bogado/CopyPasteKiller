@@ -8,34 +8,40 @@
 
 std::string removeSpaces(const std::string& str)
 {
-	static std::tr1::regex remove("\\s+");
+	std::tr1::regex remove("\\s+");
 	return std::tr1::regex_replace(str, remove, " ");
 }
 
 std::string removeSingleLineCppComments(const std::string& str)
 {
-	static std::tr1::regex remove("//.*");
+	std::tr1::regex remove("//.*");
 	return std::tr1::regex_replace(str, remove, "");
-}
-
-std::string removeCommentsAndSpaces(const std::string& str)
-{
-	return removeSpaces(removeSingleLineCppComments(str));
 }
 
 int main(int argc, const char *argv[])
 {
 	if (argc == 1)
 	{
-		std::cout << "usage " << argv[0] << " file_1 .. file_n\n";
+		std::cout << "usage " << argv[0] << " [-s] [-c] file_1 .. file_n\n";
 		return 127;
 	}
 
-	analisys::Simplifier::setup(removeCommentsAndSpaces);
 	analisys::FileDB fdb;
 
 	for (int i = 1; i < argc; i++)
-		fdb.addFile(argv[i]);
+	{
+		std::cout << i << "\n";
+		if (std::string("-c") == argv[i])
+		{
+			analisys::Simplifier::setup(removeSingleLineCppComments);
+		} else if (std::string("-s") == argv[i]) 
+		{
+			analisys::Simplifier::setup(removeSpaces);
+		} else
+		{
+			fdb.addFile(std::string(argv[i]));
+		}
+	}
 
 	analisys::ResultSet results = fdb.check();
 

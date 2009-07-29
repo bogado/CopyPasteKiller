@@ -5,6 +5,7 @@
 #include "result.h"
 #include "resultSet.h"
 
+#include <string>
 #include <vector>
 #include <unordered_map>
 
@@ -15,16 +16,9 @@ namespace analisys {
 	public:
 		typedef std::tr1::unordered_multimap<std::string, Line> LinesMultimap;
 
-		void addFile(std::string filename)
-		{
-			files_.push_back(File(filename));
-			File &file = files_[files_.size() -1];
+		void addFile(const std::string& filename);
 
-			for(int i = 0; i < file.size(); i++)
-				lines_.insert(make_pair(file[i].key(), file[i]));
-		}
-
-		const File &operator[] (unsigned int i) const
+		const File::Ptr &operator[] (unsigned int i) const
 		{
 			return files_[i];
 		}
@@ -37,21 +31,22 @@ namespace analisys {
 		ResultSet check()
 		{
 			ResultSet ret;
-			for(std::vector<File>::iterator f = files_.begin(); f != files_.end(); ++f)
-				for(int l = 0; l < f->size(); l++)
+			for(std::vector<File::Ptr>::iterator f = files_.begin(); f != files_.end(); ++f)
+				for(unsigned l = 0; l < (*f)->size(); l++)
 				{
-					std::cout << "\e[K\r" << (*f)[l]; std::cout.flush();
+					File::Ptr fl = *f;
+					std::cout << "\e[K\r" << (*fl)[l]; std::cout.flush();
 
-					if (lines_.count((*f)[l].key()) <= 1)
+					if (lines_.count((*fl)[l].key()) <= 1)
 						continue;
 
 					std::pair<LinesMultimap::iterator, LinesMultimap::iterator> range;
-					range = lines_.equal_range((*f)[l].key());
+					range = lines_.equal_range((*fl)[l].key());
 					Result &res = ret.newResult();
 					for (LinesMultimap::iterator i = range.first; i != range.second; ++i)
 						res.add(i->second);
 
-					KeyChecker resultChecker((*f)[l]);
+					KeyChecker resultChecker((*fl)[l]);
 
 					while (res.grow(resultChecker))
 					{
@@ -62,7 +57,7 @@ namespace analisys {
 		}
 
 	private:
-		std::vector<File> files_;
+		std::vector<File::Ptr> files_;
 		LinesMultimap lines_;
 	};
 }

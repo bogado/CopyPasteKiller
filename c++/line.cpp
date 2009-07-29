@@ -4,23 +4,17 @@ namespace analisys {
 
 	std::ostream &operator <<(std::ostream &out, const Line &me)
 	{
-		return out << me.file() << ":" << (me.num() + 1);
+		return out << (*me.file()) << ":" << (me.num() + 1);
 	}
 
 	const Line &analisys::Line::operator +(int n) const
 	{
-		return (*file_)[num_ + n];
+		return (*file())[num_ + n];
 	}
 
-	bool Line::valid(int n) const
+	bool Line::valid(unsigned n) const
 	{
-		if (n <= 0)
-			if (n + num_ >= 0)
-				return true;
-			else
-				return false;
-
-		if (n + num_ < file_->size())
+		if (n + num_ < file()->size())
 			return true;
 
 		return false;
