@@ -9,11 +9,13 @@ void File::init(Ptr filePtr)
 
 	unsigned int n = 0;
 	std::string l;
-	while ( !file.eof() )
+	while (!file.eof())
 	{
 		std::getline(file, l);
 		if (!file.eof())
+		{
 			lines_.push_back(Line(filePtr, n, l));
+		}
 		n++;
 	}
 

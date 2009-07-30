@@ -140,7 +140,7 @@ namespace analisys {
 					out << " ";
 				out << (*i);
 			}
-			out << ")";
+			return out << ")";
 		}
 
 		bool operator==(const Result &res) const
