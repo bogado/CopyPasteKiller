@@ -32,7 +32,7 @@ int main(int argc, const char *argv[])
 		return 127;
 	}
 
-	analisys::FileDB fdb;
+	analisys::FileDB fdb(4);
 
 	for (int i = 1; i < argc; i++)
 	{

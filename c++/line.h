@@ -35,6 +35,11 @@ namespace analisys {
 
 		bool valid(unsigned n = 0) const;
 
+		bool operator!= (const Line &l) const
+		{
+			return !(l.key() == key());
+		}
+
 		bool operator== (const Line &l) const
 		{
 			return l.key() == key();

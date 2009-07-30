@@ -22,9 +22,9 @@ namespace analisys {
 			results_.push_back(r);
 		}
 
-		Result &newResult()
+		Result &newResult(unsigned i)
 		{
-			results_.push_back(Result());
+			results_.push_back(Result(i));
 			return last();
 		}
 

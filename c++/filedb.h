@@ -14,6 +14,8 @@ namespace analisys {
 	class FileDB
 	{
 	public:
+		FileDB(unsigned threshold) : threshold_(threshold) {}
+
 		typedef std::tr1::unordered_multimap<std::string, Line> LinesMultimap;
 
 		void addFile(const std::string& filename);
@@ -28,39 +30,14 @@ namespace analisys {
 			return files_.size();
 		}
 
-		ResultSet check()
-		{
-			ResultSet ret;
-			for(std::vector<File::Ptr>::iterator f = files_.begin(); f != files_.end(); ++f)
-				for(unsigned l = 0; l < (*f)->size(); l++)
-				{
-					File::Ptr fl = *f;
-					std::cerr << "\e[K\r" << (*fl)[l]; std::cout.flush();
-
-					if (lines_.count((*fl)[l].key()) <= 1)
-						continue;
-
-					std::pair<LinesMultimap::iterator, LinesMultimap::iterator> range;
-					range = lines_.equal_range((*fl)[l].key());
-					Result &res = ret.newResult();
-					for (LinesMultimap::iterator i = range.first; i != range.second; ++i)
-						res.add(i->second);
-
-					KeyChecker resultChecker((*fl)[l]);
-
-					while (res.grow(resultChecker))
-					{
-						++l;
-					}
-				}
-
-			std::cerr << "\e[K\r"; std::cout.flush();
-			return ret;
-		}
+		ResultSet check();
 
 	private:
+		unsigned threshold_;
 		std::vector<File::Ptr> files_;
 		LinesMultimap lines_;
+
+		std::string makeKey(File::Ptr file, unsigned line);
 	};
 }
 
