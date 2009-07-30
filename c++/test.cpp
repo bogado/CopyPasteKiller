@@ -5,6 +5,7 @@
 #include <iostream>
 #include <regex>
 #include <string>
+#include <sstream>
 
 std::string removeSpacesHard(std::string str)
 {
@@ -28,11 +29,12 @@ int main(int argc, const char *argv[])
 {
 	if (argc == 1)
 	{
-		std::cout << "usage " << argv[0] << " [-s] [-c] file_1 .. file_n\n";
+		std::cout << "usage " << argv[0] << " [-s] [-c] [-tN] file_1 .. file_n\n";
 		return 127;
 	}
 
-	analisys::FileDB fdb(4);
+	unsigned threshold = 4;
+	std::list<std::string> files;
 
 	for (int i = 1; i < argc; i++)
 	{
@@ -45,11 +47,20 @@ int main(int argc, const char *argv[])
 		} else if (std::string("-s") == argv[i]) 
 		{
 			analisys::Simplifier::setup(removeSpaces);
+		} else if (std::string(argv[i]).substr(0,2) == "-t") 
+		{
+			std::stringstream st(std::string(argv[i]).substr(2));
+			st >> threshold;
 		} else
 		{
-			fdb.addFile(std::string(argv[i]));
+			files.push_back(std::string(argv[i]));
 		}
 	}
+
+	analisys::FileDB fdb(threshold);
+
+	for (std::list<std::string>::iterator i = files.begin(); i != files.end(); ++i)
+		fdb.addFile(*i);
 
 	analisys::ResultSet results = fdb.check();
 
