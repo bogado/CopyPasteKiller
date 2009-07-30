@@ -6,7 +6,7 @@ std::string FileDB::makeKey(File::Ptr file, unsigned line)
 {
 	std::string key;
 	for(unsigned j = 0; j < threshold_; j++)
-		key += (*file)[line + j].key();
+		key += "(" + (*file)[line + j].key() + ")";
 	return key;
 }
 
