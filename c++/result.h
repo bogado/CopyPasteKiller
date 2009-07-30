@@ -26,7 +26,7 @@ namespace analisys {
 			if (!l.valid(size_) || !line_.valid(size_))
 				return false;
 
-			for (unsigned i = 0; i < size_; i++)
+			for (unsigned i = 0; i <= size_; i++)
 				if ((l + i) != (line_ + i))
 					return false;
 
