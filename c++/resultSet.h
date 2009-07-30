@@ -12,9 +12,6 @@ namespace analisys {
 	class ResultSet
 	{
 	public:
-		ResultSet() : threshold_(4)
-		{}
-
 		typedef std::vector<Result> ResultArr;
 
 		void add(Result r)
@@ -61,19 +58,12 @@ namespace analisys {
 
 		friend std::ostream &operator << (std::ostream &out, const ResultSet &me)
 		{
-			bool first = true;
-			for (ResultArr::const_iterator i = me.results_.begin(); i != me.results_.end(); ++i)
+			ResultArr::const_iterator begin = me.results_.begin();
+			for (ResultArr::const_iterator i = begin; i != me.results_.end(); ++i)
 			{
-				if (i->length() > me.threshold_)
-				{
-					if (!first)
-					{
-						out << "\n";
-					}
-
-					out << *i;
-					first = false;
-				}
+				if (i != begin)
+					out << "\n";
+				out << *i;
 			}
 			return out;
 		}
@@ -115,13 +105,7 @@ namespace analisys {
 			}
 		}
 
-		void setPrintThresshold(unsigned t)
-		{
-			threshold_ = t;
-		}
-
 	private:
-		unsigned threshold_;
 		ResultArr results_;
 	};
 }
