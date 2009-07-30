@@ -26,7 +26,7 @@ namespace analisys {
 			if (!l.valid(size_) || !line_.valid(size_))
 				return false;
 
-			for (unsigned i = 0; i <= size_; i++)
+			for (unsigned i = 0; i < size_; i++)
 				if ((l + i) != (line_ + i))
 					return false;
 
@@ -56,11 +56,10 @@ namespace analisys {
 		 *
 		 * @returns true if it was possible to grow.
 		 */
-		template <class ResultChecker>
-		bool grow(ResultChecker &checker)
+		bool grow(KeyChecker &checker)
 		{
 			std::vector<bool> newList(lines_.size(), false);
-			checker.setSize(len_);
+			checker.setSize(len_ + 1);
 			// Puts all the lines that pass the check on front.
 //			LineList::iterator newEnd = partition(lines_.begin(), lines_.end(),
 //					checker);
