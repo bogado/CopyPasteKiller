@@ -7,23 +7,21 @@
 #include <string>
 #include <sstream>
 
-std::string removeSpacesHard(std::string str)
+class RegexpReplacer
 {
-	std::tr1::regex remove("\\s+");
-	return std::tr1::regex_replace(str, remove, "");
-}
+public:
+	RegexpReplacer(std::string regexp, std::string replace) : remove_(regexp), replace_(replace)
+	{}
 
-std::string removeSpaces(std::string str)
-{
-	std::tr1::regex remove("\\s+");
-	return std::tr1::regex_replace(str, remove, " ");
-}
+	std::string operator  ()(std::string str)
+	{
+		return regex_replace(str, remove_, replace_);
+	}
 
-std::string removeSingleLineCppComments(std::string str)
-{
-	std::tr1::regex remove("//.*");
-	return std::tr1::regex_replace(str, remove, "");
-}
+private:
+	std::tr1::regex remove_;
+	std::string replace_;
+};
 
 int main(int argc, const char *argv[])
 {
@@ -40,13 +38,13 @@ int main(int argc, const char *argv[])
 	{
 		if (std::string("-c") == argv[i])
 		{
-			analisys::Simplifier::setup(removeSingleLineCppComments);
+			analisys::Simplifier::setup(RegexpReplacer("//.*", ""));
 		} else if (std::string("-S") == argv[i]) 
 		{
-			analisys::Simplifier::setup(removeSpacesHard);
+			analisys::Simplifier::setup(RegexpReplacer("\\s+", ""));
 		} else if (std::string("-s") == argv[i]) 
 		{
-			analisys::Simplifier::setup(removeSpaces);
+			analisys::Simplifier::setup(RegexpReplacer("\\s+", " "));
 		} else if (std::string(argv[i]).substr(0,2) == "-t") 
 		{
 			std::stringstream st(std::string(argv[i]).substr(2));
