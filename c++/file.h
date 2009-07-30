@@ -1,5 +1,9 @@
 #ifndef FILE_H_INCLUDED_
 #define FILE_H_INCLUDED_
+ 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include <iostream>
 #include <fstream>
@@ -60,9 +64,8 @@ namespace analisys {
 	private:
 		File(std::string filename) : filename_(filename) 
 		{
-			std::fstream f(filename.c_str());
-
-			if (f.fail())
+			struct stat st;
+			if (stat(filename.c_str(), &st) || !S_ISREG(st.st_mode))
 				throw NoSuchFile(filename);
 		}
 
