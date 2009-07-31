@@ -100,12 +100,13 @@ bool Result::CanGrow(const Line& line, unsigned sz, const Line& l)
 	if (!l.valid(sz) || !line.valid(sz))
 		return false;
 
-	for (unsigned i = 0; i < sz; i++)
+	for (unsigned i = size(); i < sz; i++)
 		if ((l + i) != (line + i))
 			return false;
 
 	return true;
 }
+
 bool Result::operator==(const Result &res) const
 {
 	if (res.length() != length())
