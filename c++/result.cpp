@@ -5,7 +5,7 @@ namespace analisys
 
 bool Result::grow()
 {
-	std::vector<bool> newList(lines_.size(), false);
+	std::vector<bool> removeThis(lines_.size(), false);
 
 	// Puts all the lines that pass the check on front.
 	//			LineList::iterator newEnd = partition(lines_.begin(), lines_.end(),
@@ -17,7 +17,7 @@ bool Result::grow()
 	{
 		if (!CanGrow(*i, len_ + 1))
 		{
-			newList[n]= true;
+			removeThis[n]= true;
 			res--;
 		}
 		n++;
@@ -32,9 +32,9 @@ bool Result::grow()
 
 	len_++;
 	LineList::iterator itr = lines_.begin();
-	for (unsigned i = 0; i < newList.size(); i++)
+	for (unsigned i = 0; i < removeThis.size(); i++)
 	{
-		if (newList[i])
+		if (removeThis[i])
 		{
 			LineList::iterator old = itr;
 			itr++;
