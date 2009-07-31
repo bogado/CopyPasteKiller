@@ -176,6 +176,9 @@ std::ostream &operator <<(std::ostream &out, const Result &me)
 			first = false;
 
 		out << (*i);
+
+		if (i->same(me.pivot_))
+			out << "*";
 	}
 	return out << ")";
 }
