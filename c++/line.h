@@ -31,7 +31,10 @@ namespace analisys {
 			return content_;
 		}
 
-		const Line &operator +(int n) const;
+		const Line &operator +(int n) const
+		{
+			return (*file())[num_ + n];
+		}
 
 		bool valid(unsigned n = 0) const;
 
