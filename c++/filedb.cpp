@@ -37,7 +37,7 @@ ResultSet FileDB::check()
 			std::pair<LinesMultimap::iterator, LinesMultimap::iterator> range;
 			range = lines_.equal_range(key);
 
-			Result &res = ret.newResult(threshold_);
+			Result res = Result((*fl)[l], threshold_);
 			for (LinesMultimap::iterator i = range.first; i != range.second; ++i)
 			{
 				res.add(i->second);
@@ -45,7 +45,7 @@ ResultSet FileDB::check()
 
 			if (!ret.belongs(res))
 			{
-				while (res.grow((*fl)[l]));
+				while (res.grow());
 			} else 
 			{
 				ret.dropLast();

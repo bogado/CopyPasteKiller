@@ -3,7 +3,7 @@
 namespace analisys 
 {
 
-bool Result::grow(const Line& pivot)
+bool Result::grow()
 {
 	std::vector<bool> newList(lines_.size(), false);
 
@@ -15,7 +15,7 @@ bool Result::grow(const Line& pivot)
 	int res = lines_.size();
 	for (LineList::iterator i = lines_.begin(); i != lines_.end(); ++i)
 	{
-		if (!CanGrow(pivot, len_ + 1, *i))
+		if (!CanGrow(*i, len_ + 1))
 		{
 			newList[n]= true;
 			res--;
@@ -95,13 +95,13 @@ bool Result::belongs(const Result &res) const
 	return true;
 }
 
-bool Result::CanGrow(const Line& line, unsigned sz, const Line& l)
+bool Result::CanGrow(const Line& line, unsigned sz)
 {
-	if (!l.valid(sz) || !line.valid(sz))
+	if (!line.valid(sz) || !pivot_.valid(sz))
 		return false;
 
 	for (unsigned i = size(); i < sz; i++)
-		if ((l + i) != (line + i))
+		if ((line + i) != (pivot_ + i))
 			return false;
 
 	return true;

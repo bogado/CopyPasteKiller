@@ -19,12 +19,6 @@ namespace analisys {
 			results_.push_back(r);
 		}
 
-		Result &newResult(unsigned i)
-		{
-			results_.push_back(Result(i));
-			return last();
-		}
-
 		void dropLast()
 		{
 			results_.pop_back();
