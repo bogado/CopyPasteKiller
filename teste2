@@ -7,26 +7,6 @@
 07
 08
 09
-== 1 repete até o 4
-01
-02
-03
-04
-05
-06 d1
-07 d1
-08 d1
-09 d1
-== 2 repete a partir do 5
-01 d2 
-02 d2
-03 d2
-04 d2
-05
-06
-07
-08
-09
 == 3  repete até o 7
 01
 02
@@ -47,40 +27,5 @@
 07
 08
 09 d4
-=== Abaixo estão resultados obtidos : 
-=== resultados 1: 
-A) 1 (../teste2:5 ../teste2:15 ../teste2:25 ../teste2:35 ../teste2:45)
-A) 1 (../teste2:6 ../teste2:26 ../teste2:36 ../teste2:46)
-A) 1 (../teste2:8 ../teste2:28 ../teste2:48)
-A) 1 (../teste2:9 ../teste2:29)
-A) 2 (../teste2:4 ../teste2:14 ../teste2:34 ../teste2:44)
-A) 2 (../teste2:5 ../teste2:25 ../teste2:35 ../teste2:45)
-A) 2 (../teste2:7 ../teste2:27 ../teste2:47)
-A) 2 (../teste2:8 ../teste2:28)
-A) 3 (../teste2:3 ../teste2:13 ../teste2:33 ../teste2:43)
-A) 3 (../teste2:4 ../teste2:34 ../teste2:44)
-A) 3 (../teste2:6 ../teste2:26 ../teste2:46)
-A) 4 (../teste2:2 ../teste2:12 ../teste2:32 ../teste2:42)
-A) 4 (../teste2:5 ../teste2:25 ../teste2:45)
-A) 5 (../teste2:1 ../teste2:11 ../teste2:31)
-=== resultados 2: 
-B) 1 (../teste2:5 ../teste2:15 ../teste2:25 ../teste2:35 ../teste2:45)
-B) 1 (../teste2:6 ../teste2:26 ../teste2:36 ../teste2:46)
-B) 1 (../teste2:8 ../teste2:28 ../teste2:48)
-B) 1 (../teste2:9 ../teste2:29)
-B) 2 (../teste2:4 ../teste2:14 ../teste2:34 ../teste2:44)
-B) 2 (../teste2:5 ../teste2:25 ../teste2:35 ../teste2:45)
-B) 2 (../teste2:7 ../teste2:27 ../teste2:47)
-B) 2 (../teste2:8 ../teste2:28)
-B) 3 (../teste2:6 ../teste2:26 ../teste2:46)
-B) 3 (../teste2:7 ../teste2:27)
-B) 4 (../teste2:2 ../teste2:12 ../teste2:32 ../teste2:42)
-B) 4 (../teste2:5 ../teste2:25 ../teste2:45)
-B) 4 (../teste2:6 ../teste2:26)
-B) 5 (../teste2:1 ../teste2:11 ../teste2:31)
-B) 5 (../teste2:2 ../teste2:32 ../teste2:42)
-B) 5 (../teste2:4 ../teste2:44)
-B) 5 (../teste2:5 ../teste2:25)
-B) 6 (../teste2:1 ../teste2:31)
-B) 6 (../teste2:3 ../teste2:43)
-B) 7 (../teste2:2 ../teste2:42)
+=== resultados: 
+) 7 (:2 :42)
