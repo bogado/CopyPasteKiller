@@ -77,7 +77,11 @@ namespace analisys {
 			CheckLine(const Line& l, unsigned int size) : line_(l), size_(size)
 			{}
 
+			/// Verifica se l esta em line_ e line_ + size_
 			bool operator() (const Line &l);
+
+			/// Retorna a linha com a menor distancia a line_
+			bool operator() (const Line &a, const Line &b);
 
 		private:
 			const Line &line_;

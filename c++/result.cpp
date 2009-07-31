@@ -1,5 +1,7 @@
 #include "result.h"
 
+#include <cstdlib>
+
 namespace analisys 
 {
 
@@ -64,6 +66,14 @@ bool Result::belongs(const Line &l) const
 	return find_if(lines_.begin(), lines_.end(), checker) != lines_.end();
 }
 
+bool Result::CheckLine::operator() (const Line& a, const Line& b)
+{
+	if (a.file() != b.file() && a.file() != line_.file())
+		return false;
+
+	return abs(line_.num() - a.num()) < abs(line_.num() - b.num());
+}
+
 bool Result::belongs(const Result &res) const
 {
 	if (res.size() > size())
@@ -79,7 +89,7 @@ bool Result::belongs(const Result &res) const
 	for (LineList::const_iterator i = res.lines_.begin(); i != res.lines_.end(); ++i)
 	{
 		CheckLine checker(*i, len_);
-		LineList::const_iterator l = find_if(lines_.begin(), lines_.end(), checker);
+		LineList::const_iterator l = min_element(lines_.begin(), lines_.end(), checker);
 
 		if (l == lines_.end())
 		{
