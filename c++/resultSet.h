@@ -25,6 +25,11 @@ namespace analisys {
 			return last();
 		}
 
+		void dropLast()
+		{
+			results_.pop_back();
+		}
+
 		const Result &operator[](unsigned int i) const
 		{
 			return results_[i];
