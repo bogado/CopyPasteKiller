@@ -66,6 +66,16 @@ bool Result::belongs(const Line &l) const
 
 bool Result::belongs(const Result &res) const
 {
+	if (res.size() > size())
+	{
+		return false;
+	}
+
+	if (res.length() > length())
+	{
+		return false;
+	}
+
 	for (LineList::const_iterator i = res.lines_.begin(); i != res.lines_.end(); ++i)
 	{
 		CheckLine checker(*i, len_);
@@ -76,7 +86,7 @@ bool Result::belongs(const Result &res) const
 			return false;
 		}
 
-		if ((i->num() - l->num()) >= len_)
+		if (i->num() + res.length() > l->num() + length())
 		{
 			return false;
 		}
