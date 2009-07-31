@@ -50,12 +50,17 @@ namespace analisys {
 			return results_[results_.size() - 1];
 		}
 
-		bool belongs(const Line &l)
+		bool belongs(const Result& obj)
 		{
+			if (results_.size() == 0)
+				return false;
+
 			for(ResultArr::iterator i = results_.begin(); i != results_.end(); ++i)
 			{
-				if (i->belongs(l))
+				if ((obj != *i) && i->belongs(obj))
+				{
 					return true;
+				}
 			}
 
 			return false;
