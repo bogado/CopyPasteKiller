@@ -39,5 +39,6 @@
 09
 ==
 === Resultados esperados: 
-9 (../teste3:1 ../teste3:11 ../teste3:21 ../teste3:31)
-29 (../teste3:1 ../teste3:11)
+10 (../teste3:1 ../teste3:11 ../teste3:21 ../teste3:31)
+20 (../teste3:1 ../teste3:11 ../teste3:21*)
+30 (../teste3:1 ../teste3:11)
