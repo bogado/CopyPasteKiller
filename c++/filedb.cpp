@@ -43,7 +43,13 @@ ResultSet FileDB::check()
 				res.add(i->second);
 			}
 
-			while (res.grow((*fl)[l]));
+			if (!ret.belongs(res))
+			{
+				while (res.grow((*fl)[l]));
+			} else 
+			{
+				ret.dropLast();
+			}
 		}
 
 	std::cerr << "\e[K\r"; std::cout.flush();
