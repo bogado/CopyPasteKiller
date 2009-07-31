@@ -107,12 +107,21 @@ bool Result::belongs(const Result &res) const
 
 bool Result::CanGrow(const Line& line, unsigned sz)
 {
-	if (!line.valid(sz) || !pivot_.valid(sz))
-		return false;
+	if (line.same(pivot_))
+		return true;
 
-	for (unsigned i = size(); i < sz; i++)
+	if (!line.valid(sz) || !pivot_.valid(sz))
+	{
+		return false;
+	}
+
+	for (unsigned i = len_; i < sz; i++)
+	{
 		if ((line + i) != (pivot_ + i))
+		{
 			return false;
+		}
+	}
 
 	return true;
 }

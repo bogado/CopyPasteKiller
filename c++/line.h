@@ -38,6 +38,11 @@ namespace analisys {
 
 		bool valid(unsigned n = 0) const;
 
+		bool same(const Line& l) const
+		{
+			return (num() == l.num()) && (file() == l.file());
+		}
+
 		bool operator!= (const Line &l) const
 		{
 			return !(l.key() == key());
