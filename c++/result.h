@@ -10,33 +10,6 @@
 
 namespace analisys {
 
-	class KeyChecker
-	{
-	public:
-		KeyChecker(const Line& l) : line_(l), size_(1)
-		{}
-
-		void setSize(unsigned int sz)
-		{
-			size_ = sz;
-		}
-
-		bool operator()(const Line &l)
-		{
-			if (!l.valid(size_) || !line_.valid(size_))
-				return false;
-
-			for (unsigned i = 0; i < size_; i++)
-				if ((l + i) != (line_ + i))
-					return false;
-
-			return true;
-		}
-	private:
-		Line line_;
-		unsigned int size_;
-	};
-
 	class Result
 	{
 	public:
@@ -56,48 +29,7 @@ namespace analisys {
 		 *
 		 * @returns true if it was possible to grow.
 		 */
-		bool grow(KeyChecker &checker)
-		{
-			std::vector<bool> newList(lines_.size(), false);
-			checker.setSize(len_ + 1);
-			// Puts all the lines that pass the check on front.
-//			LineList::iterator newEnd = partition(lines_.begin(), lines_.end(),
-//					checker);
-
-			int n = 0;
-			int res = lines_.size();
-			for (LineList::iterator i = lines_.begin(); i != lines_.end(); ++i)
-			{
-				if (!checker(*i))
-				{
-					newList[n]= true;
-					res--;
-				}
-				n++;
-			}
-
-			// is this a trivial result?
-			if (res < 2)
-			{
-				lines_.sort();
-				return false;
-			}
-
-			len_++;
-			LineList::iterator itr = lines_.begin();
-			for (unsigned i = 0; i < newList.size(); i++)
-			{
-				if (newList[i])
-				{
-					LineList::iterator old = itr;
-					itr++;
-					lines_.erase(old);
-				} else
-					++itr;
-			}
-
-			return true;
-		}
+		bool grow(const Line& pivot);
 
 		/// Length of matching blocks
 		unsigned int length() const
@@ -112,103 +44,44 @@ namespace analisys {
 		}
 
 		/// Does the line l belongs to this result?
-		bool belongs(const Line &l) const
-		{
-			CheckLine checker(l, len_);
+		bool belongs(const Line &l) const;
 
-			return find_if(lines_.begin(), lines_.end(), checker) != lines_.end();
-		}
+		/// Verifica se um resulta pertence a este resultado.
+		bool belongs(const Result &res) const;
 
-		bool belongs(const Result &res) const
-		{
-			for (LineList::const_iterator i = res.lines_.begin(); i != res.lines_.end(); ++i)
-			{
-				if (!belongs(*i))
-					return false;
+		friend std::ostream &operator <<(std::ostream &out, const Result &me);
 
-				if (i->valid(res.size()) && !belongs(*i + res.size()))
-					return false;
-			}
+		bool operator==(const Result &res) const;
 
-			return true;
-		}
-
-		friend std::ostream &operator <<(std::ostream &out, const Result &me)
-		{
-			out << me.length() << " (";
-			LineList::const_iterator begin = me.lines_.begin();
-			for (LineList::const_iterator i = begin; i != me.lines_.end(); ++i)
-			{
-				if (i != begin)
-					out << " ";
-				out << (*i);
-			}
-			return out << ")";
-		}
-
-		bool operator==(const Result &res) const
-		{
-			if (res.length() != length())
-				return false;
-
-			if (res.size() != size())
-				return false;
-
-			LineList::const_iterator j = res.lines_.begin();
-			for(LineList::const_iterator i = lines_.begin(); i != lines_.end(); i++)
-			{
-				if (!((*i) == (*j)))
-					return false;
-			}
-
-			return true;
-		}
-
-		bool operator<(const Result &res) const
-		{
-			unsigned lenXsiz1 = length() * size();
-			unsigned lenXsiz2 = res.length() * res.size();
-
-			if (lenXsiz1 < lenXsiz2)
-				return true;
-
-			if (lenXsiz1 > lenXsiz2)
-				return false;
-
-			if (length() < res.length())
-				return true;
-
-			if (length() > res.length())
-				return false;
-
-			return (*lines_.begin()) < (*res.lines_.begin());
-		}
+		bool operator<(const Result &res) const;
 
 	private:
+		LineList lines_;
+		unsigned int len_;
+	
+		/** Verifia se uma linha pode permanecer neste resultado caso ele tenha um novo tamanho
+		 * @param line linha pivot a partir da qual este resultado está sendo construido.
+		 * @param sz novo tamanho sendo verificado.
+		 * @param l linha a ser verificada.
+		 */
+		bool CanGrow(const Line& line, unsigned sz, const Line& l);
+
+		/** Esta classe é um predicado que verifica se uma linha pertence a este resultado.
+		 *
+		 * usado no teste de 'belongs'
+		 */
 		class CheckLine
 		{
 		public:
 			CheckLine(const Line& l, unsigned int size) : line_(l), size_(size)
 			{}
 
-			bool operator() (const Line &l)
-			{
-				if (line_.num() < l.num() || line_.num() >= l.num() + size_)
-					return false;
-
-				if (l.file() == line_.file())
-					return true;
-
-				return false;
-			}
+			bool operator() (const Line &l);
 
 		private:
 			const Line &line_;
 			unsigned int size_;
 		};
-
-		LineList lines_;
-		unsigned int len_;
 	};
 }
 

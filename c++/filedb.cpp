@@ -43,9 +43,7 @@ ResultSet FileDB::check()
 				res.add(i->second);
 			}
 
-			KeyChecker resultChecker((*fl)[l]);
-
-			while (res.grow(resultChecker));
+			while (res.grow((*fl)[l]));
 		}
 
 	std::cerr << "\e[K\r"; std::cout.flush();
