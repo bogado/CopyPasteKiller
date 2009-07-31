@@ -52,6 +52,10 @@ namespace analisys {
 		friend std::ostream &operator <<(std::ostream &out, const Result &me);
 
 		bool operator==(const Result &res) const;
+		bool operator!=(const Result &res) const
+		{
+			return !(*this == res);
+		}
 
 		bool operator<(const Result &res) const;
 
