@@ -65,7 +65,11 @@ if test "x$want_boost" = "xyes"; then
 	else
 		for ac_boost_path_tmp in /usr /usr/local /opt /opt/local ; do
 			if test -d "$ac_boost_path_tmp/include/boost" && test -r "$ac_boost_path_tmp/include/boost"; then
-				BOOST_LIB="$ac_boost_path_tmp/lib"
+				for ac_lib_path_tmp in lib lib64; do
+					if test -d $ac_boost_path_tmp/$ac_lib_path_tmp; then 
+						BOOST_LIB="$ac_boost_path_tmp/$ac_lib_path_tmp"
+					fi
+				done
 				BOOST_INC="$ac_boost_path_tmp/include"
 				break;
 			fi
@@ -102,8 +106,6 @@ if test "x$want_boost" = "xyes"; then
        	],[
        	])
 	AC_LANG_POP([C++])
-
-
 
 	dnl if we found no boost with system layout we search for boost libraries
 	dnl built and installed without the --layout=system option or for a staged(not installed) version
@@ -208,13 +210,13 @@ AC_ARG_WITH([boost-static],
 		AS_HELP_STRING([--with-boost-static],
 			[Use the static version of boost, if available]),
 		[
-		stat_lib=`ls $BOOST_LIB/libboost_$1-*.a | head -1`
+		stat_lib=$(ls $BOOST_LIB/libboost_$1-*.a 2>/dev/null | head -1)
 		if test -e "$stat_lib"; then 
 			BOOST_LDFLAGS=$BOOST_LDFLAGS\ $stat_lib
 		fi
 		],
 		[
-		dyn_lib=$(ls $BOOST_LIB/libboost_$1-*.so | head -1)
+		dyn_lib=$(ls $BOOST_LIB/libboost_$1-*.so 2>/dev/null | head -1)
 		if test -e "$dyn_lib"; then
 			lib=`echo $dyn_lib | sed 's/.*\(boost.*\).so/\1/'`
 			BOOST_LDFLAGS=$BOOST_LDFLAGS\ -l$lib
