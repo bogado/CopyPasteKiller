@@ -83,7 +83,7 @@ if test "x$want_boost" = "xyes"; then
 	export CPPFLAGS
 
 	LDFLAGS_SAVED="$LDFLAGS"
-	LDFLAGS="$LDFLAGS -L$BOOST_LDFLAGS"
+	LDFLAGS="$LDFLAGS -L$BOOST_LIB"
 	export LDFLAGS
 
 	AC_LANG_PUSH(C++)
@@ -157,9 +157,9 @@ if test "x$want_boost" = "xyes"; then
 	    		fi
 		fi
 
-		CPPFLAGS="$CPPFLAGS -I$BOOST_CPPFLAGS"
+		CPPFLAGS="$CPPFLAGS -I$BOOST_INC"
 		export CPPFLAGS
-		LDFLAGS="$LDFLAGS -L$BOOST_LDFLAGS"
+		LDFLAGS="$LDFLAGS -L$BOOST_LIB"
 		export LDFLAGS
 
 		AC_LANG_PUSH(C++)
@@ -223,6 +223,39 @@ AC_ARG_WITH([boost-static],
 	AC_SUBST(BOOST_LDFLAGS)
 ]);
 
+AC_DEFUN([BG_BOOST_TR1],
+[
+	BG_BOOST_BASE([1.34])
+	BG_BOOST_LIB([regex])
+	BOOST_CPPFLAGS="-I$BOOST_INC/boost/tr1/tr1 -I$BOOST_INC"
+	AC_LANG_PUSH(C++)
+
+	CPPFLAGS_SAVED="$CPPFLAGS"
+	CPPFLAGS="$CPPFLAGS $BOOST_CPPFLAGS"
+	export CPPFLAGS
+
+	LDFLAGS_SAVED="$LDFLAGS"
+	LDFLAGS="$LDFLAGS $BOOST_LDFLAGS"
+	export LDFLAGS
+
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#include <regexp>
+
+main()
+{
+	std::tr1::regexp a;
+}
+		]])],
+		[],[
+			BOOST_CPPFLAGS="$BOOST_CPPFLAGS -DBOOST_TR1_DISABLE_INCLUDE_NEXT"
+	]);
+
+	export CPPFLAGS="$CPPFLAGS_SAVED"
+	export LDFLAGS="$LDFLAGS_SAVED"
+
+	AC_SUBST(BOOST_CPPFLAGS)
+]);
+
 AC_PREREQ(2.59)
 AC_INIT([CopyPasteKiller], [0.1], [victor@bogado.net])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign dist-bzip2])
@@ -232,8 +265,7 @@ AC_CONFIG_SRCDIR([src/main.cpp])
 AC_PROG_CXX
 
 # Checks for libraries.
-BG_BOOST_BASE([1.34])
-BG_BOOST_LIB([regex])
+BG_BOOST_TR1
 
 # Checks for header files.
 AC_CHECK_HEADERS([unistd.h])
