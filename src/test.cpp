@@ -36,18 +36,22 @@ int main(int argc, const char *argv[])
 
 	for (int i = 1; i < argc; i++)
 	{
-		if (std::string("-c") == argv[i])
+		std::string arg(argv[i]);
+		if (std::string("-c") == arg)
 		{
 			analisys::Simplifier::setup(RegexpReplacer("//.*", ""));
-		} else if (std::string("-S") == argv[i]) 
+		} else if (std::string("-S") == arg) 
 		{
 			analisys::Simplifier::setup(RegexpReplacer("\\s+", ""));
-		} else if (std::string("-s") == argv[i]) 
+		} else if (std::string("-s") == arg) 
 		{
 			analisys::Simplifier::setup(RegexpReplacer("\\s+", " "));
-		} else if (std::string(argv[i]).substr(0,2) == "-t") 
+		} else if (arg.substr(0,2) == "-r")
 		{
-			std::stringstream st(std::string(argv[i]).substr(2));
+			analisys::Simplifier::setup(RegexpReplacer(arg.substr(2), ""));
+		} else if (arg.substr(0,2) == "-t") 
+		{
+			std::stringstream st(arg.substr(2));
 			st >> threshold;
 		} else
 		{
