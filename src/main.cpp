@@ -27,7 +27,13 @@ int main(int argc, const char *argv[])
 {
 	if (argc == 1)
 	{
-		std::cout << "usage " << argv[0] << " [-s] [-c] [-tN] file_1 .. file_n\n";
+		std::cout << "usage " << argv[0] << " [-s] [-S] [-c] [-rREGEXP] [-tN] file_1 .. file_n\n\n"
+			"\t-s\t\tTransforma qualquer numero de brancos em um espaço, \"A    B\" fica igual a \"A B\"\n"
+			"\t-S\t\tIgnora os brancos completamente, \"A B\" fica igual a \"AB\"\n"
+			"\t-c\t\tIgnora comentários de uma linha do C++.\n"
+			"\t-rREGEXP\tIgnora qualque match da REGEXP (perl compatible) que for encontrado.\n"
+			"\t-tn\t\tIgnora blocos de copy and paste menores que n linhas.\n\n"
+			"\tAs opções são processadas na ordem dada na linha de comando, ou seja \"/ / AB\" fircará igual a \"//AB\" se o usuário usar \"-c -S\" mas será completamente ignorado quando for usado \"-S -c\".\n";
 		return 127;
 	}
 
