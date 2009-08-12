@@ -15,8 +15,13 @@ namespace analisys {
 	public:
 		typedef std::list<Line> LineList;
 
-		Result(const Line &pivot, int len = 1) : pivot_(pivot),  len_(len)
+		Result(const Line &pivot, int len = 1) : pivot_(pivot),  len_(len), verbose_(false)
 		{}
+
+		void setVerbose(bool v = true)
+		{
+			verbose_ = v;
+		}
 
 		void add(const Line &l)
 		{
@@ -60,9 +65,10 @@ namespace analisys {
 		Line pivot_;
 		LineList lines_;
 		unsigned int len_;
+		bool verbose_;
 	
 		/** Verifia se uma linha pode permanecer neste resultado caso ele tenha um novo tamanho
-		 * @param line linha a ser verificada.
+		 * @param line linha a ser verificada.:sp sr
 		 * @param sz novo tamanho sendo verificado.
 		 */
 		bool CanGrow(const Line& line, unsigned sz);

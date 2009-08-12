@@ -180,7 +180,20 @@ std::ostream &operator <<(std::ostream &out, const Result &me)
 		if (i->same(me.pivot_))
 			out << "*";
 	}
-	return out << ")";
+
+	out << ")";
+
+	if (me.verbose_)
+	{
+		out << "\n";
+		for (int i = 0; i < me.length(); i++)
+		{
+			out << (me.pivot_ + i).content() << "\n";
+		}
+	}
+
+	return out;
 }
+
 }
 

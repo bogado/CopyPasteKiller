@@ -44,6 +44,12 @@ namespace analisys {
 			return results_[results_.size() - 1];
 		}
 
+		void setVerbose(bool v = false)
+		{
+			for (ResultArr::iterator i = results_.begin(); i != results_.end(); ++i)
+				i->setVerbose(v);
+		}
+
 		bool belongs(const Result& obj)
 		{
 			if (results_.size() == 0)
