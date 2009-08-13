@@ -96,7 +96,7 @@ bool Result::belongs(const Result &res) const
 			return false;
 		}
 
-		if (i->num() + res.length() > l->num() + length())
+		if (l->num() + res.length() > i->num() + length())
 		{
 			return false;
 		}
