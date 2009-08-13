@@ -48,11 +48,11 @@
 08
 09 d4
 === resultados: 
-1 (../teste1:5 ../teste1:15 ../teste1:25 ../teste1:35 ../teste1:45)
-2 (../teste1:5 ../teste1:25 ../teste1:35 ../teste1:45)
-4 (../teste1:2 ../teste1:12 ../teste1:32 ../teste1:42)
-4 (../teste1:5 ../teste1:25 ../teste1:45)
-5 (../teste1:1 ../teste1:11 ../teste1:31)
-5 (../teste1:5 ../teste1:25)
-6 (../teste1:1 ../teste1:31)
-7 (../teste1:2 ../teste1:42)
+1 (testes/teste1:5 testes/teste1:15* testes/teste1:25 testes/teste1:35 testes/teste1:45)
+2 (testes/teste1:5 testes/teste1:25 testes/teste1:35* testes/teste1:45)
+4 (testes/teste1:2 testes/teste1:12* testes/teste1:32 testes/teste1:42)
+4 (testes/teste1:5 testes/teste1:25 testes/teste1:45*)
+5 (testes/teste1:1 testes/teste1:11* testes/teste1:31)
+5 (testes/teste1:5 testes/teste1:25*)
+6 (testes/teste1:1 testes/teste1:31*)
+7 (testes/teste1:2 testes/teste1:42*)
