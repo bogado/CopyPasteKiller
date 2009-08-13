@@ -91,7 +91,7 @@ namespace analisys {
 				int n = 0;
 				for (ResultArr::iterator j = results_.begin(); j != results_.end(); ++n, ++j)
 				{
-					if (i == j)
+					if (i == j || !include[n])
 						continue;
 
 					if ((*i).belongs(*j))
