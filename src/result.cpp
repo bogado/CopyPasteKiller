@@ -115,15 +115,7 @@ bool Result::CanGrow(const Line& line, unsigned sz)
 		return false;
 	}
 
-	for (unsigned i = len_; i < sz; i++)
-	{
-		if ((line + i) != (pivot_ + i))
-		{
-			return false;
-		}
-	}
-
-	return true;
+	return line.file()->makeKey(line, sz) == pivot_.file()->makeKey(pivot_, sz);
 }
 
 bool Result::operator==(const Result &res) const

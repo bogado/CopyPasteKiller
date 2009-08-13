@@ -2,18 +2,6 @@
 
 namespace analisys {
 
-std::string FileDB::makeKey(File::Ptr file, unsigned line)
-{
-	std::string key;
-	for(unsigned j = 0; j < threshold_; j++)
-	{
-		if (file->size() > line + j)
-			return key;
-		key += "(" + (*file)[line + j].key() + ")";
-	}
-	return key;
-}
-
 void FileDB::addFile(const std::string& filename)
 {
 	files_.push_back(File::build(filename));
@@ -27,7 +15,7 @@ void FileDB::addFile(const std::string& filename)
 
 	for(unsigned i = 0; i < file->size() - threshold_; i++)
 	{
-		lines_.insert(make_pair(makeKey(file, i), (*file)[i]));
+		lines_.insert(make_pair(file->makeKey(i, threshold_), (*file)[i]));
 	}
 }
 
@@ -41,7 +29,7 @@ ResultSet FileDB::check()
 			File::Ptr fl = *f;
 			std::cerr << "\e[K\r" << (*fl)[l]; std::cout.flush();
 
-			std::string key = makeKey(fl, l);
+			std::string key = fl->makeKey(l, threshold_);
 			if (lines_.count(key) <= 1)
 				continue;
 

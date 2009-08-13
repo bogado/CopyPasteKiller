@@ -36,8 +36,6 @@ namespace analisys {
 		unsigned threshold_;
 		std::vector<File::Ptr> files_;
 		LinesMultimap lines_;
-
-		std::string makeKey(File::Ptr file, unsigned line);
 	};
 }
 

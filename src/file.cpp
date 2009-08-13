@@ -22,4 +22,27 @@ void File::init(Ptr filePtr)
 	file.close();
 }
 
+std::string File::makeKey(const Line& line, unsigned t)
+{
+	return makeKey(line.num(), t);
+}
+
+std::string File::makeKey(unsigned ln, unsigned t)
+{
+	std::string key;
+	for(unsigned j = 0; j < t; j++)
+	{
+		if (size() < ln + j)
+		{
+			return key;
+		}
+
+		Line &line = lines_[ln + j];
+
+		key += "(" + line.key() + ")";
+	}
+
+	return key;
+}
+
 }
