@@ -6,7 +6,11 @@ std::string FileDB::makeKey(File::Ptr file, unsigned line)
 {
 	std::string key;
 	for(unsigned j = 0; j < threshold_; j++)
+	{
+		if (file->size() > line + j)
+			return key;
 		key += "(" + (*file)[line + j].key() + ")";
+	}
 	return key;
 }
 
@@ -14,6 +18,12 @@ void FileDB::addFile(const std::string& filename)
 {
 	files_.push_back(File::build(filename));
 	File::Ptr file = files_[files_.size() -1];
+
+	if (file->size() < threshold_)
+	{
+		files_.pop_back();
+		return;
+	}
 
 	for(unsigned i = 0; i < file->size() - threshold_; i++)
 	{
@@ -25,6 +35,7 @@ ResultSet FileDB::check()
 {
 	ResultSet ret;
 	for(std::vector<File::Ptr>::iterator f = files_.begin(); f != files_.end(); ++f)
+	{
 		for(unsigned l = 0; l < (*f)->size() - threshold_; l++)
 		{
 			File::Ptr fl = *f;
@@ -46,6 +57,7 @@ ResultSet FileDB::check()
 			while (res.grow());
 			ret.add(res);
 		}
+	}
 
 	std::cerr << "\e[K\r"; std::cout.flush();
 	return ret;
