@@ -100,11 +100,11 @@ namespace analisys {
 					}
 				}
 
-				std::cerr << "\e[K\r" << passo*100/results_.size() << "%"; std::cout.flush();
+				std::cerr << "\e[K\r" << passo*100/results_.size() << "%"; std::cerr.flush();
 				passo ++;
 			}
 
-			std::cerr << "\e[K\r"; std::cout.flush();
+			std::cerr << "\e[K\r"; std::cerr.flush();
 
 			int i = 0;
 			for (ResultArr::iterator j = results_.begin(); j != results_.end(); ++i)
