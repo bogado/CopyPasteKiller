@@ -260,7 +260,7 @@ main()
 
 AC_PREREQ(2.59)
 AC_INIT([CopyPasteKiller], [0.1], [victor@bogado.net])
-AM_INIT_AUTOMAKE([-Wall -Werror foreign dist-bzip2])
+AM_INIT_AUTOMAKE([-Wall -Werror foreign dist-bzip2 subdir-objects])
 AC_CONFIG_SRCDIR([src/main.cpp])
 
 # Checks for programs.
@@ -268,6 +268,14 @@ AC_PROG_CXX
 
 # Checks for libraries.
 BG_BOOST_TR1
+BG_BOOST_LIB([thread])
+AC_CHECK_LIB([pthread], [pthread_cancel], 
+[
+	PTHREAD=-lpthread
+],
+[
+	AC_MSG_ERROR([Could not find pthread], -1)
+])
 
 # Checks for header files.
 AC_CHECK_HEADERS([unistd.h])
@@ -281,6 +289,5 @@ AC_CONFIG_HEADERS([config.h])
 
 AC_CONFIG_FILES([
 	Makefile
-	src/Makefile
 ])
 AC_OUTPUT
