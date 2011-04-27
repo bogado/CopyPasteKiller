@@ -153,16 +153,16 @@ std::ostream &operator <<(std::ostream &out, const Result &me)
 {
 	out << me.length() << " (";
 	bool first = true;
-	for (Result::LineList::const_iterator i = me.lines_.begin(); i != me.lines_.end(); ++i)
+	for (Line i: me.lines_)
 	{
 		if (!first)
 			out << " ";
 		else
 			first = false;
 
-		out << (*i);
+		out << i;
 
-		if (i->same(me.pivot_))
+		if (i.same(me.pivot_))
 			out << "*";
 	}
 
