@@ -78,7 +78,7 @@ bool Result::belongs(const Result &res) const
 	{
 		LineList::const_iterator l = min_element(lines_.begin(), lines_.end(), [&](const Line& a, const Line& b)
 		{
-			if (a.file() != b.file() && a.file() != i.file())
+			if (a.file() != b.file() || a.file() != i.file())
 				return false;
 
 			return abs(i.num() - a.num()) < abs(i.num() - b.num());
