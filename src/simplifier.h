@@ -35,7 +35,7 @@ private:
 class Simplifier
 {
 public:
-	typedef std::tr1::shared_ptr<SimplifierInt> Ptr;
+	typedef std::shared_ptr<SimplifierInt> Ptr;
 	typedef std::vector< Ptr > Vector;
 
 	template <typename Tipo>

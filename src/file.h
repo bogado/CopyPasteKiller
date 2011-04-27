@@ -36,8 +36,8 @@ namespace analisys {
 	class File
 	{
 	public:
-		typedef std::tr1::shared_ptr<File> Ptr;
-		typedef std::tr1::weak_ptr<File> WeakPtr;
+		typedef std::shared_ptr<File> Ptr;
+		typedef std::weak_ptr<File> WeakPtr;
 
 		static Ptr build(std::string filename) 
 		{

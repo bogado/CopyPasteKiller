@@ -8,11 +8,11 @@ AM_INIT_AUTOMAKE([-Wall -Werror foreign dist-bzip2 subdir-objects])
 AC_CONFIG_SRCDIR([src/main.cpp])
 
 # Checks for programs.
+CXXFLAGS+="-std=c++0x"
 AC_PROG_CXX
 
 # Checks for libraries.
-BG_BOOST_TR1
-BG_BOOST_LIB([thread])
+BG_BOOST_LIB([regex])
 AC_CHECK_LIB([pthread], [pthread_cancel], 
 [
 	PTHREAD=-lpthread

@@ -3,9 +3,10 @@
 #include "resultSet.h"
 
 #include <iostream>
-#include <regex>
 #include <string>
 #include <sstream>
+
+#include "boost/regex.hpp"
 
 class RegexpReplacer
 {
@@ -19,7 +20,7 @@ public:
 	}
 
 private:
-	std::tr1::regex remove_;
+	boost::regex remove_;
 	std::string replace_;
 };
 

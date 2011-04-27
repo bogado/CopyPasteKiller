@@ -16,7 +16,7 @@ namespace analisys {
 	public:
 		FileDB(unsigned threshold) : threshold_(threshold) {}
 
-		typedef std::tr1::unordered_multimap<std::string, Line> LinesMultimap;
+		typedef std::unordered_multimap<std::string, Line> LinesMultimap;
 
 		void addFile(const std::string& filename);
 
