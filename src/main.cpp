@@ -74,8 +74,8 @@ int main(int argc, const char *argv[])
 
 	analisys::FileDB fdb(threshold, simp);
 
-	for (std::list<std::string>::iterator i = files.begin(); i != files.end(); ++i)
-		fdb.addFile(*i);
+	for (std::string file: files)
+		fdb.addFile(file);
 
 	analisys::ResultSet results = fdb.check();
 

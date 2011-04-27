@@ -22,21 +22,20 @@ void FileDB::addFile(const std::string& filename)
 ResultSet FileDB::check()
 {
 	ResultSet ret;
-	for(std::vector<File::Ptr>::iterator f = files_.begin(); f != files_.end(); ++f)
+	for(File::Ptr f: files_)
 	{
-		for(unsigned l = 0; l < (*f)->size() - threshold_; l++)
+		for(unsigned l = 0; l < f->size() - threshold_; l++)
 		{
-			File::Ptr fl = *f;
-			std::cerr << "\e[K\r" << (*fl)[l]; std::cout.flush();
+			std::cerr << "\e[K\r" << (*f)[l]; std::cout.flush();
 
-			std::string key = fl->makeKey(l, threshold_);
+			std::string key = f->makeKey(l, threshold_);
 			if (lines_.count(key) <= 1)
 				continue;
 
 			std::pair<LinesMultimap::iterator, LinesMultimap::iterator> range;
 			range = lines_.equal_range(key);
 
-			Result res = Result((*fl)[l], threshold_);
+			Result res = Result((*f)[l], threshold_);
 			for (LinesMultimap::iterator i = range.first; i != range.second; ++i)
 			{
 				res.add(i->second);
