@@ -15,9 +15,9 @@ bool Result::grow()
 
 	int n = 0;
 	int res = lines_.size();
-	for (LineList::iterator i = lines_.begin(); i != lines_.end(); ++i)
+	for (Line& i : lines_)
 	{
-		if (!CanGrow(*i, len_ + 1))
+		if (!CanGrow(i, len_ + 1))
 		{
 			removeThis[n]= true;
 			res--;
@@ -39,7 +39,7 @@ bool Result::grow()
 		if (removeThis[i])
 		{
 			LineList::iterator old = itr;
-			itr++;
+			++itr;
 			lines_.erase(old);
 		} else
 			++itr;
