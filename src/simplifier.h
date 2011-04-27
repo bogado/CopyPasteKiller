@@ -5,43 +5,20 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include <functional>
 
 namespace analisys {
-
-class SimplifierInt 
-{
-public:
-	virtual ~SimplifierInt() {}
-
-	virtual std::string simplify(const std::string& str) = 0;
-};
-
-template <typename Tipo>
-class SimplifierEncapsuler : public SimplifierInt
-{
-public:
-	SimplifierEncapsuler(Tipo functor) : functor_(functor)
-	{}
-
-	std::string simplify(const std::string& str)
-	{
-		return functor_(str);
-	}
-
-private:
-	Tipo functor_;
-};
 
 class Simplifier
 {
 public:
-	typedef std::shared_ptr<SimplifierInt> Ptr;
-	typedef std::vector< Ptr > Vector;
+	typedef std::function<std::string(const std::string&)> functor;
+	typedef std::vector<functor> Vector;
 
 	template <typename Tipo>
 	static void setup(Tipo functor)
 	{
-		instance().add(new SimplifierEncapsuler<Tipo>(functor));
+		instance().add(functor);
 	}
 
 	static std::string doit(std::string str)
@@ -53,18 +30,18 @@ private:
 	Simplifier() : simplifier_()
 	{}
 
-	void add(SimplifierInt* simp)
+	void add(functor simp)
 	{
-		simplifier_.push_back(Ptr(simp));
+		simplifier_.push_back(simp);
 	}
 
 	std::string execute(std::string str)
 	{
 		std::string result = str;
 
-		for(Vector::iterator i = simplifier_.begin(); i != simplifier_.end(); ++i)
+		for(auto& i: simplifier_)
 		{
-			result = (*i)->simplify(result);
+			result = i(result);
 		}
 
 		return result;
