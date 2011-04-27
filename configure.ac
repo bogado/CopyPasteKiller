@@ -29,8 +29,6 @@ AC_CHECK_HEADERS([unistd.h])
 # Checks for library functions.
 AC_FUNC_STAT
 
-AC_CONFIG_HEADERS([config.h])
-
 AC_CONFIG_FILES([
 	Makefile
 ])
