@@ -73,26 +73,6 @@ namespace analisys {
 		 */
 		bool CanGrow(const Line& line, unsigned sz);
 
-		/** Esta classe é um predicado que verifica se uma linha pertence a este resultado.
-		 *
-		 * usado no teste de 'belongs'
-		 */
-		class CheckLine
-		{
-		public:
-			CheckLine(const Line& l, unsigned int size) : line_(l), size_(size)
-			{}
-
-			/// Verifica se l esta em line_ e line_ + size_
-			bool operator() (const Line &l);
-
-			/// Retorna a linha com a menor distancia a line_
-			bool operator() (const Line &a, const Line &b);
-
-		private:
-			const Line &line_;
-			unsigned int size_;
-		};
 	};
 }
 

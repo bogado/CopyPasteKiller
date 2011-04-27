@@ -48,30 +48,18 @@ bool Result::grow()
 	return true;
 }
 
-bool Result::CheckLine::operator() (const Line &l)
+bool Result::belongs(const Line &line) const
 {
-	if (line_.num() < l.num() || line_.num() >= l.num() + size_)
-		return false;
+	return find_if(lines_.begin(), lines_.end(), [&](const Line& l)
+	{
+		if (line.num() < l.num() || line.num() >= l.num() + len_)
+			return false;
 
-	if (l.file() != line_.file())
-		return false;
+		if (l.file() != line.file())
+			return false;
 
-	return true;
-}
-
-bool Result::belongs(const Line &l) const
-{
-	CheckLine checker(l, len_);
-
-	return find_if(lines_.begin(), lines_.end(), checker) != lines_.end();
-}
-
-bool Result::CheckLine::operator() (const Line& a, const Line& b)
-{
-	if (a.file() != b.file() && a.file() != line_.file())
-		return false;
-
-	return abs(line_.num() - a.num()) < abs(line_.num() - b.num());
+		return true;
+	}) != lines_.end();
 }
 
 bool Result::belongs(const Result &res) const
@@ -86,17 +74,22 @@ bool Result::belongs(const Result &res) const
 		return false;
 	}
 
-	for (LineList::const_iterator i = res.lines_.begin(); i != res.lines_.end(); ++i)
+	for (Line i: res.lines_)
 	{
-		CheckLine checker(*i, len_);
-		LineList::const_iterator l = min_element(lines_.begin(), lines_.end(), checker);
+		LineList::const_iterator l = min_element(lines_.begin(), lines_.end(), [&](const Line& a, const Line& b)
+		{
+			if (a.file() != b.file() && a.file() != i.file())
+				return false;
+
+			return abs(i.num() - a.num()) < abs(i.num() - b.num());
+		});
 
 		if (l == lines_.end())
 		{
 			return false;
 		}
 
-		if (l->num() + res.length() > i->num() + length())
+		if (l->num() + res.length() > i.num() + length())
 		{
 			return false;
 		}
