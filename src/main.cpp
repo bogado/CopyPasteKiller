@@ -42,25 +42,26 @@ int main(int argc, const char *argv[])
 	bool verbose = false;
 	unsigned threshold = 4;
 	std::list<std::string> files;
+	analisys::Simplifier simp;
 
 	for (int i = 1; i < argc; i++)
 	{
 		std::string arg(argv[i]);
 		if ("-c" == arg)
 		{
-			analisys::Simplifier::setup(RegexpReplacer("//.*", ""));
+			simp.add(RegexpReplacer("//.*", ""));
 		} else if ("-S" == arg) 
 		{
-			analisys::Simplifier::setup(RegexpReplacer("\\s+", ""));
+			simp.add(RegexpReplacer("\\s+", ""));
 		} else if ("-s" == arg) 
 		{
-			analisys::Simplifier::setup(RegexpReplacer("\\s+", " "));
+			simp.add(RegexpReplacer("\\s+", " "));
 		} else if ("-v" == arg)
 		{
 			verbose = true;
 		} else if (arg.substr(0,2) == "-r")
 		{
-			analisys::Simplifier::setup(RegexpReplacer(arg.substr(2), ""));
+			simp.add(RegexpReplacer(arg.substr(2), ""));
 		} else if (arg.substr(0,2) == "-t") 
 		{
 			std::stringstream st(arg.substr(2));
@@ -71,7 +72,7 @@ int main(int argc, const char *argv[])
 		}
 	}
 
-	analisys::FileDB fdb(threshold);
+	analisys::FileDB fdb(threshold, simp);
 
 	for (std::list<std::string>::iterator i = files.begin(); i != files.end(); ++i)
 		fdb.addFile(*i);

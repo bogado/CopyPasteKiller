@@ -32,6 +32,7 @@ namespace analisys {
 	};
 
 	class Line;
+	class Simplifier;
 
 	class File
 	{
@@ -39,11 +40,11 @@ namespace analisys {
 		typedef std::shared_ptr<File> Ptr;
 		typedef std::weak_ptr<File> WeakPtr;
 
-		static Ptr build(std::string filename) 
+		static Ptr build(std::string filename, const Simplifier& simp)
 		{
 			Ptr file = Ptr(new File(filename));
 	
-			file->init(file);
+			file->init(file, simp);
 
 			return file;
 		}
@@ -72,7 +73,7 @@ namespace analisys {
 				throw NoSuchFile(filename);
 		}
 
-		void init(Ptr file);
+		void init(Ptr file, const Simplifier& simp);
 
 		std::string filename_;
 		std::vector<Line> lines_;

@@ -4,7 +4,7 @@ namespace analisys {
 
 void FileDB::addFile(const std::string& filename)
 {
-	files_.push_back(File::build(filename));
+	files_.push_back(File::build(filename, simplifier_));
 	File::Ptr file = files_[files_.size() -1];
 
 	if (file->size() < threshold_)

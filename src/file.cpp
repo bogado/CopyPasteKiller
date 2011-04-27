@@ -3,7 +3,7 @@
 
 namespace analisys {
 
-void File::init(Ptr filePtr)
+void File::init(Ptr filePtr, const Simplifier& simp)
 {
 	std::fstream file(filename_.c_str(), std::fstream::in);
 
@@ -14,7 +14,7 @@ void File::init(Ptr filePtr)
 		std::getline(file, l);
 		if (!file.eof())
 		{
-			lines_.push_back(Line(filePtr, n, l));
+			lines_.push_back(Line(filePtr, n, l, simp));
 		}
 		n++;
 	}

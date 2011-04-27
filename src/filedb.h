@@ -14,7 +14,10 @@ namespace analisys {
 	class FileDB
 	{
 	public:
-		FileDB(unsigned threshold) : threshold_(threshold) {}
+		FileDB(unsigned threshold, Simplifier simplifier) :
+			threshold_(threshold),
+			simplifier_(simplifier)
+		{}
 
 		typedef std::unordered_multimap<std::string, Line> LinesMultimap;
 
@@ -36,6 +39,7 @@ namespace analisys {
 		unsigned threshold_;
 		std::vector<File::Ptr> files_;
 		LinesMultimap lines_;
+		Simplifier simplifier_;
 	};
 }
 

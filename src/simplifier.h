@@ -15,27 +15,12 @@ public:
 	typedef std::function<std::string(const std::string&)> functor;
 	typedef std::vector<functor> Vector;
 
-	template <typename Tipo>
-	static void setup(Tipo functor)
+	void add(functor f)
 	{
-		instance().add(functor);
+		simplifier_.push_back(f);
 	}
 
-	static std::string doit(std::string str)
-	{
-		return instance().execute(str);
-	}
-
-private:
-	Simplifier() : simplifier_()
-	{}
-
-	void add(functor simp)
-	{
-		simplifier_.push_back(simp);
-	}
-
-	std::string execute(std::string str)
+	std::string operator()(std::string str) const
 	{
 		std::string result = str;
 
@@ -47,12 +32,7 @@ private:
 		return result;
 	}
 
-	static Simplifier& instance()
-	{
-		static Simplifier singleton;
-		return singleton;
-	}
-
+private:
 	Vector simplifier_;
 };
 
