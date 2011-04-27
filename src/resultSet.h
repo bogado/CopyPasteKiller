@@ -86,15 +86,18 @@ namespace analisys {
 
 			unsigned passo = 0;
 			std::vector<bool> include(results_.size(), true);
-			for (ResultArr::iterator i = results_.begin(); i != results_.end(); i++)
+			for (Result& i : results_)
 			{
-				int n = 0;
-				for (ResultArr::iterator j = results_.begin(); j != results_.end(); ++n, ++j)
+				int n = -1;
+				for (Result& j: results_)
 				{
+					++n;
 					if (i == j || !include[n])
+					{
 						continue;
+					}
 
-					if ((*i).belongs(*j))
+					if (i.belongs(j))
 					{
 						include[n] = false;
 					}
