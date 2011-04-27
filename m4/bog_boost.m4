@@ -198,11 +198,12 @@ fi
 
 AC_DEFUN([BG_BOOST_LIB],
 [
+	BG_BOOST_BASE
 	if test "a$BOOST_LDFLAGS" == "a"; then
  		BOOST_LDFLAGS=-L${BOOST_LIB}
 	fi
 
-AC_ARG_WITH([boost-static],
+	AC_ARG_WITH([boost-static],
 		AS_HELP_STRING([--with-boost-static],
 			[Use the static version of boost, if available]),
 		[
