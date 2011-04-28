@@ -1,3 +1,16 @@
 *.o
 .*.swp
 c++/test
+cpkiller
+Makefile
+Makefile.in
+config.log
+config.status
+src/.deps
+src/.dirstamp
+configure
+missing
+aclocal.m4
+autom4te.cache/
+depcomp
+install-sh
