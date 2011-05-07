@@ -40,14 +40,7 @@ namespace analisys {
 		typedef std::shared_ptr<File> Ptr;
 		typedef std::weak_ptr<File> WeakPtr;
 
-		static Ptr build(std::string filename, const Simplifier& simp)
-		{
-			Ptr file = Ptr(new File(filename));
-	
-			file->init(file, simp);
-
-			return file;
-		}
+		static Ptr build(std::string filename, const Simplifier& simp);
 
 		unsigned int size() const;
 
@@ -66,12 +59,7 @@ namespace analisys {
 		}
 
 	private:
-		File(std::string filename) : filename_(filename) 
-		{
-			struct stat st;
-			if (stat(filename.c_str(), &st) || !S_ISREG(st.st_mode))
-				throw NoSuchFile(filename);
-		}
+		File(std::string);
 
 		void init(Ptr file, const Simplifier& simp);
 
@@ -79,22 +67,9 @@ namespace analisys {
 		std::vector<Line> lines_;
 	};
 
-	inline unsigned int File::size() const
-	{
-		return lines_.size();
-	}
-
 	inline const Line &File::operator [](unsigned n) const
 	{
 		return const_cast<const Line &>(const_cast<File &>(*this)[n]);
-	}
-
-	inline Line &File::operator [](unsigned n)
-	{
-		if (n >= lines_.size())
-			throw(NoSuchLine(filename_));
-
-		return lines_[n];
 	}
 
 	inline std::ostream &operator << (std::ostream& out, const File &me)
