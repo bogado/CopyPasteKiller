@@ -20,6 +20,15 @@ AC_CHECK_LIB([pthread], [pthread_cancel],
 [
 	AC_MSG_ERROR([Could not find pthread], -1)
 ])
+AC_CHECK_TOOL([GTEST_CONFIG],[gtest-config],[no])
+GTEST_CPPFLAGS=`${GTEST_CONFIG} --cppflags`
+GTEST_CXXFLAGS=`${GTEST_CONFIG} --cxxflags`
+GTEST_LDFLAGS=`${GTEST_CONFIG} --ldflags`
+GTEST_LIBS=`${GTEST_CONFIG} --libs`
+AC_SUBST([GTEST_CPPFLAGS])
+AC_SUBST([GTEST_CXXFLAGS])
+AC_SUBST([GTEST_LDFLAGS])
+AC_SUBST([GTEST_LIBS])
 
 # Checks for header files.
 AC_CHECK_HEADERS([unistd.h])

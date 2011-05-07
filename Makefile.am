@@ -23,3 +23,8 @@ cpkiller_LDADD = ${BOOST_LDFLAGS} -lpthread
 cpkiller_test_SOURCES = \
 		$(SRC) \
 		$(TEST_SRC)
+
+cpkiller_test_CPPFLAGS = $(cpkiller_CPFLAGS) $(GTEST_CPPFLAGS) -Isrc
+cpkiller_test_CXXFLAGS = $(GTEST_CXXFLAGS) -DTEST_DIR="\"test/\""
+cpkiller_test_LDFLAGS  = $(GTEST_LDFLAGS)
+cpkiller_test_LDADD    = $(GTEST_LIBS) $(cpkiller_LDADD)
