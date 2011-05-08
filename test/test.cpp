@@ -37,6 +37,8 @@ TEST_F(FileTest, Size)
 TEST_F(FileTest, Index)
 {
 	EXPECT_EQ((*file_1)[0], (*file_2)[0]);
+	EXPECT_EQ((*file_1)[0], (*file_1)[0]);
+	EXPECT_NE((*file_1)[0], (*file_1)[1]);
 }
 
 int main(int argc, char *argv[])
