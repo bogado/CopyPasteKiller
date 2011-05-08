@@ -5,7 +5,6 @@
 #include <iostream>
 
 #include "result.h"
-#include "line.h"
 
 namespace analisys {
 

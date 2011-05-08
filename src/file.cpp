@@ -1,7 +1,7 @@
 #include "file.h"
-#include "line.h"
 
 namespace analisys {
+
 File::File(std::string filename) : filename_(filename)
 {
 	struct stat st;
@@ -60,7 +60,7 @@ std::string File::makeKey(unsigned ln, unsigned t)
 	return key;
 }
 
-Line &File::operator [](unsigned n)
+File::Line &File::operator [](unsigned n)
 {
 	if (n >= lines_.size())
 		throw(NoSuchLine(filename_));
@@ -71,6 +71,14 @@ Line &File::operator [](unsigned n)
 unsigned int File::size() const
 {
 	return lines_.size();
+}
+
+bool File::Line::valid(unsigned n) const
+{
+	if (n + num_ < file()->size())
+		return true;
+
+	return false;
 }
 
 }

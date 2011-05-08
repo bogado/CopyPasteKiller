@@ -19,7 +19,7 @@ namespace analisys {
 			simplifier_(simplifier)
 		{}
 
-		typedef std::unordered_multimap<std::string, Line> LinesMultimap;
+		typedef std::unordered_multimap<std::string, File::Line> LinesMultimap;
 
 		void addFile(const std::string& filename);
 

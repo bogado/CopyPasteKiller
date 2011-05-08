@@ -6,16 +6,16 @@
 #include <algorithm>
 #include <iostream>
 
-#include "line.h"
+#include "file.h"
 
 namespace analisys {
 
 	class Result
 	{
 	public:
-		typedef std::list<Line> LineList;
+		typedef std::list<File::Line> LineList;
 
-		Result(const Line &pivot, int len = 1) : pivot_(pivot),  len_(len), verbose_(false)
+		Result(const File::Line &pivot, int len = 1) : pivot_(pivot),  len_(len), verbose_(false)
 		{}
 
 		void setVerbose(bool v = true)
@@ -23,7 +23,7 @@ namespace analisys {
 			verbose_ = v;
 		}
 
-		void add(const Line &l)
+		void add(const File::Line &l)
 		{
 			lines_.push_back(l);
 		}
@@ -46,7 +46,7 @@ namespace analisys {
 		}
 
 		/// Does the line l belongs to this result?
-		bool belongs(const Line &l) const;
+		bool belongs(const File::Line &l) const;
 
 		/// Verifica se um resulta pertence a este resultado.
 		bool belongs(const Result &res) const;
@@ -62,7 +62,7 @@ namespace analisys {
 		bool operator<(const Result &res) const;
 
 	private:
-		Line pivot_;
+		File::Line pivot_;
 		LineList lines_;
 		unsigned int len_;
 		bool verbose_;
@@ -71,7 +71,7 @@ namespace analisys {
 		 * @param line linha a ser verificada.:sp sr
 		 * @param sz novo tamanho sendo verificado.
 		 */
-		bool CanGrow(const Line& line, unsigned sz);
+		bool CanGrow(const File::Line& line, unsigned sz);
 
 	};
 }

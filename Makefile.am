@@ -6,8 +6,6 @@ SRC = \
 		src/file.h\
 		src/filedb.cpp\
 		src/filedb.h\
-		src/line.cpp\
-		src/line.h\
 		src/result.cpp\
 		src/result.h\
 		src/resultSet.h\

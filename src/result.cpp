@@ -15,7 +15,7 @@ bool Result::grow()
 
 	int n = 0;
 	int res = lines_.size();
-	for (Line& i : lines_)
+	for (File::Line& i : lines_)
 	{
 		if (!CanGrow(i, len_ + 1))
 		{
@@ -48,9 +48,9 @@ bool Result::grow()
 	return true;
 }
 
-bool Result::belongs(const Line &line) const
+bool Result::belongs(const File::Line &line) const
 {
-	return find_if(lines_.begin(), lines_.end(), [&](const Line& l)
+	return find_if(lines_.begin(), lines_.end(), [&](const File::Line& l)
 	{
 		if (line.num() < l.num() || line.num() >= l.num() + len_)
 			return false;
@@ -74,9 +74,9 @@ bool Result::belongs(const Result &res) const
 		return false;
 	}
 
-	for (Line i: res.lines_)
+	for (File::Line i: res.lines_)
 	{
-		LineList::const_iterator l = min_element(lines_.begin(), lines_.end(), [&](const Line& a, const Line& b)
+		LineList::const_iterator l = min_element(lines_.begin(), lines_.end(), [&](const File::Line& a, const File::Line& b)
 		{
 			if (a.file() != b.file() || a.file() != i.file())
 				return false;
@@ -98,7 +98,7 @@ bool Result::belongs(const Result &res) const
 	return true;
 }
 
-bool Result::CanGrow(const Line& line, unsigned sz)
+bool Result::CanGrow(const File::Line& line, unsigned sz)
 {
 	if (line.same(pivot_))
 		return true;
@@ -153,7 +153,7 @@ std::ostream &operator <<(std::ostream &out, const Result &me)
 {
 	out << me.length() << " (";
 	bool first = true;
-	for (Line i: me.lines_)
+	for (File::Line i: me.lines_)
 	{
 		if (!first)
 			out << " ";
