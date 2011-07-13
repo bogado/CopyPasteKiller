@@ -207,13 +207,13 @@ AC_DEFUN([BG_BOOST_LIB],
 		AS_HELP_STRING([--with-boost-static],
 			[Use the static version of boost, if available]),
 		[
-		stat_lib=$(ls $BOOST_LIB/libboost_$1-*.a 2>/dev/null | head -1)
+		stat_lib=$(ls $BOOST_LIB/libboost_$1-*.a  $BOOST_LIB/libboost_$1.a 2>/dev/null | head -1)
 		if test -e "$stat_lib"; then 
 			BOOST_LDFLAGS=$BOOST_LDFLAGS\ $stat_lib
 		fi
 		],
 		[
-		dyn_lib=$(ls $BOOST_LIB/libboost_$1-*.so 2>/dev/null | head -1)
+		dyn_lib=$(ls $BOOST_LIB/libboost_$1-*.so $BOOST_LIB/libboost_$1.so 2>/dev/null | head -1)
 		if test -e "$dyn_lib"; then
 			lib=`echo $dyn_lib | sed 's/.*\(boost.*\).so/\1/'`
 			BOOST_LDFLAGS=$BOOST_LDFLAGS\ -l$lib
