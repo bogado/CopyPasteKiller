@@ -114,8 +114,15 @@ namespace analisys {
 		const Line &operator [](unsigned n) const;
 		Line &operator [](unsigned n);
 
-		bool operator ==(const File &b) const;
-		bool operator !=(const File &b) const;
+		bool operator ==(const File &b) const
+		{
+			return b.filename() == filename();
+		}
+
+		bool operator !=(const File &b) const
+		{
+			return !(*this == b);
+		}
 
 		std::string makeKey(unsigned line, unsigned t);
 		std::string makeKey(const Line& line, unsigned t);

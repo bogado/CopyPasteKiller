@@ -41,6 +41,14 @@ TEST_F(FileTest, Index)
 	EXPECT_NE((*file_1)[0], (*file_1)[1]);
 }
 
+TEST_F(FileTest, Equal)
+{
+	EXPECT_NE(*file_1, *file_2);
+
+	File::Ptr file_1_other = File::build(file_1->filename(), nop);
+	EXPECT_EQ(*file_1_other, *file_1);
+}
+
 int main(int argc, char *argv[])
 {
 	::testing::InitGoogleTest(&argc, argv);
